@@ -1,22 +1,22 @@
 package services;
 
-import models.Sneaker;
+import models.BoardGame;
 
 import java.util.ArrayList;
 
-public class SneakerService {
+public class BoardGameService {
     private static int nextId = 1;
-    private ArrayList<Sneaker> inventory = new ArrayList<>();
+    private ArrayList<BoardGame> inventory = new ArrayList<>();
 
-    public Sneaker create(String name, String brand, String sport, int size, int quantity, float price) {
-        Sneaker createdSneaker = new Sneaker(nextId++, name, brand, sport, size, quantity, price);
-        inventory.add(createdSneaker);
-        return createdSneaker;
+    public BoardGame create(String gameName, String manufacturer, int ageMinimum, int ageMax, int avgPlayingTime, int id) {
+        BoardGame createdGame = new BoardGame(gameName, manufacturer, ageMinimum, ageMax, avgPlayingTime, id);
+        inventory.add(createdGame);
+        return createdGame;
     }
 
     //read
-    public Sneaker findSneaker(int id) {
-        for (Sneaker s : inventory) {
+    public BoardGame findGame(int id) {
+        for (BoardGame s : inventory) {
             if (s.getId() == id) {
                 return s;
             }
@@ -26,15 +26,15 @@ public class SneakerService {
     }
 
     //read all
-    public Sneaker[] findAll() {
+    public BoardGame[] findAll() {
         Object[] sneaks = this.inventory.toArray();
         int newSize = this.inventory.size();
         if (newSize < 1) { newSize = 1; }
-        Sneaker[] toRet = new Sneaker[newSize];
+        BoardGame[] toRet = new BoardGame[newSize];
         int index = 0;
         for (Object o : sneaks) {
-            if (o instanceof Sneaker) {
-                toRet[index] = (Sneaker) o;
+            if (o instanceof BoardGame) {
+                toRet[index] = (BoardGame) o;
                 index++;
             }
         }
