@@ -10,9 +10,8 @@ public class CreateConsole extends AbstractConsole {
     protected void setupCommands() {
         commandMap.put("figure", Command.FIGURINE);
         commandMap.put("game", Command.BOARDGAME);
-        commandMap.put("exit", Command.EXIT);
-        commandMap.put("help", Command.HELP);
         commandMap.put("return", Command.RETURN);
+        commandMap.put("help", Command.HELP);
     }
 
     @Override
@@ -24,6 +23,7 @@ public class CreateConsole extends AbstractConsole {
     public void run(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             case FIGURINE:
+                //TODO
                 return;
             case BOARDGAME:
                 if (args.size() > 0) {
@@ -67,16 +67,13 @@ public class CreateConsole extends AbstractConsole {
                 System.out.println("Improper arguments. Expecting BOARDGAME command to be followed by some combination of: game name, age minimum, age maximum, and average playing time.");
                 printPrompt(PromptMessage.STANDARD, true);
                 return;
-            case EXIT:
-                System.exit(0);
+            case RETURN:
+                Console console = new Console();
+                console.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
                 printHelpCommand();
                 printPrompt(PromptMessage.STANDARD, true);
-                return;
-            case RETURN:
-                Console console = new Console();
-                console.printPrompt(PromptMessage.STANDARD, true);
                 return;
         }
     }

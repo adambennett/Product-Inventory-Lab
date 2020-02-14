@@ -3,7 +3,9 @@ package io;
 import models.BoardGame;
 import models.Figurine;
 import models.Product;
+import services.ConsoleService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Console extends AbstractConsole {
@@ -16,6 +18,7 @@ public class Console extends AbstractConsole {
         commandMap.put("delete", Command.DELETE);
         commandMap.put("report", Command.REPORT);
         commandMap.put("exit", Command.EXIT);
+        commandMap.put("exitnosave", Command.HARDEXIT);
         commandMap.put("help", Command.HELP);
     }
 
@@ -32,41 +35,30 @@ public class Console extends AbstractConsole {
                 createConsole.printPrompt(PromptMessage.CREATE, true);
                 return;
             case READ:
-                int counter = 1;
-                ArrayList<String> uniques = new ArrayList<>();
-
-                for (Product p : App.inventory.getProducts()) {
-                    String s = "[" + App.inventory.amtOfProductByName(p) + "]: " + p.getName();
-                    if (p instanceof BoardGame) {
-                        BoardGame bg = (BoardGame)p;
-                        s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
-                    }
-                    else if (p instanceof Figurine) {
-                        Figurine fig = (Figurine)p;
-                        s += " (" + fig.getColor() + ")";
-                    }
-                    if (!uniques.contains(s)) {
-                        uniques.add(s);
-                    }
-                }
-                for (String s : uniques) {
-                    System.out.println(s);
-                }
+                printReadList();
                 printPrompt(PromptMessage.READ, true);
                 return;
             case UPDATE:
-                System.out.println("Update!");
-                printPrompt(PromptMessage.UPDATE, true);
+                UpdateConsole updateConsole = new UpdateConsole();
+                updateConsole.printPrompt(PromptMessage.UPDATE, true);
                 return;
             case DELETE:
-                System.out.println("Delete!");
-                printPrompt(PromptMessage.DELETE, true);
+                DeleteConsole deleteConsole = new DeleteConsole();
+                deleteConsole.printPrompt(PromptMessage.DELETE, true);
                 return;
             case REPORT:
-                System.out.println("Report!");
-                printPrompt(PromptMessage.REPORT, true);
+                ReportConsole reportConsole = new ReportConsole();
+                reportConsole.printPrompt(PromptMessage.REPORT, true);
                 return;
             case EXIT:
+                try {
+                    ConsoleService.saveAllInventoryData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
+                return;
+            case HARDEXIT:
                 System.exit(0);
                 return;
             case BAD_COMMAND:
@@ -80,6 +72,27 @@ public class Console extends AbstractConsole {
             default:
                 run(Command.BAD_COMMAND, null);
                 return;
+        }
+    }
+
+    private void printReadList() {
+        ArrayList<String> uniques = new ArrayList<>();
+        for (Product p : App.inventory.getProducts()) {
+            String s = "[" + App.inventory.amtOfProductByName(p) + "]: " + p.getName();
+            if (p instanceof BoardGame) {
+                BoardGame bg = (BoardGame)p;
+                s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
+            }
+            else if (p instanceof Figurine) {
+                Figurine fig = (Figurine)p;
+                s += " (" + fig.getColor() + ")";
+            }
+            if (!uniques.contains(s)) {
+                uniques.add(s);
+            }
+        }
+        for (String s : uniques) {
+            System.out.println(s);
         }
     }
 }

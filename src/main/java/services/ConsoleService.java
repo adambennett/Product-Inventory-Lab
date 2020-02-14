@@ -1,10 +1,23 @@
 package services;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
+import io.App;
+import models.BoardGame;
+import models.Figurine;
+import models.Product;
+import utils.CSVUtils;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
+
+    private static int nextId = 0;
+
     public static Float getFloatInput(String prompt) {
         Scanner scanner = new Scanner(System.in);
         Util.println(prompt);
@@ -53,5 +66,32 @@ public class ConsoleService {
 
     public static void prln(String print) {
         System.out.println(print);
+    }
+
+    public static void saveAllInventoryData() throws IOException {
+        String csvFile = "/Users/Adam/Desktop/Inventory.csv";
+        FileWriter writer = new FileWriter(csvFile); //(1)
+
+        CSVUtils.writeLine(writer, new ArrayList<String>(Arrays.asList(String.valueOf(nextId))));  // (2)
+
+        for (Product s : App.inventory.getProducts()) {
+            List<String> list = new ArrayList<>();
+            if (s instanceof BoardGame) {
+                BoardGame ga = (BoardGame)s;
+                list.add("" + ga.getAvgPlayingTime());
+                list.add(s.getName());
+                list.add("" + ga.getAgeMinimum());
+                list.add("" + ga.getAgeMax());
+            } else if (s instanceof Figurine) {
+                Figurine fig = (Figurine)s;
+                list.add(fig.getColor());
+                list.add(s.getName());
+            }
+            CSVUtils.writeLine(writer, list);  // (4)
+        }
+
+        // (5)
+        writer.flush();
+        writer.close();
     }
 }

@@ -12,7 +12,6 @@ class AbstractConsoleTest {
     void commandExists() {
         Console console = new Console();
         CreateConsole creator = new CreateConsole();
-        ReadConsole reader = new ReadConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
 
@@ -41,32 +40,27 @@ class AbstractConsoleTest {
         try {
             Console console = new Console();
             CreateConsole creator = new CreateConsole();
-            ReadConsole reader = new ReadConsole();
             DeleteConsole deletor = new DeleteConsole();
             UpdateConsole updater = new UpdateConsole();
 
             Method consoleMethod = console.getClass().getDeclaredMethod("commandExistsElsewhere", Console.class);
             Method creatorMethod = creator.getClass().getDeclaredMethod("commandExistsElsewhere", CreateConsole.class);
-            Method readerMethod = reader.getClass().getDeclaredMethod("commandExistsElsewhere", ReadConsole.class);
             Method deletorMethod = deletor.getClass().getDeclaredMethod("commandExistsElsewhere", DeleteConsole.class);
             Method updaterMethod = updater.getClass().getDeclaredMethod("commandExistsElsewhere", UpdateConsole.class);
 
             consoleMethod.setAccessible(true);
             creatorMethod.setAccessible(true);
-            readerMethod.setAccessible(true);
             deletorMethod.setAccessible(true);
             updaterMethod.setAccessible(true);
 
             Boolean actual = (Boolean) consoleMethod.invoke(console, "game");
             Boolean actualB = (Boolean) creatorMethod.invoke(creator, "game");
-            Boolean actualC = (Boolean) readerMethod.invoke(reader, "game");
-            Boolean actualD = (Boolean) deletorMethod.invoke(deletor, "game");
-            Boolean actualE = (Boolean) updaterMethod.invoke(updater, "game");
+            Boolean actualC = (Boolean) deletorMethod.invoke(deletor, "game");
+            Boolean actualD = (Boolean) updaterMethod.invoke(updater, "game");
             Assertions.assertTrue(actual);
             Assertions.assertTrue(actualB);
             Assertions.assertTrue(actualC);
             Assertions.assertTrue(actualD);
-            Assertions.assertTrue(actualE);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             System.out.println(e.getClass().toString());
             Assertions.assertTrue(true);

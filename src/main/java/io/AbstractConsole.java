@@ -24,7 +24,13 @@ public abstract class AbstractConsole
         UPDATE,
         FIGURINE,
         BOARDGAME,
-        RETURN
+        RETURN,
+        LIST,
+        ADD,
+        SUB,
+        SET,
+        REMOVE,
+        HARDEXIT
     }
 
     public enum PromptMessage {
@@ -108,6 +114,7 @@ public abstract class AbstractConsole
                         "***          ZipCo Inventory Manager           ***\n" +
                         "***                                            ***\n" +
                         "***               Enter a Command              ***\n" +
+                        "***     Enter 'Help' for a List of Commands    ***\n" +
                         "**************************************************\n");
                 if (promptForInput) {
                     reprompt();
@@ -131,7 +138,34 @@ public abstract class AbstractConsole
                         "***         Board Game - Enter 'Game'          ***\n" +
                         "***         Figurine - Enter 'Figure'          ***\n" +
                         "***                                            ***\n" +
-                        "***                                            ***\n" +
+                        "***      Enter 'Help' for a List of Commands   ***\n" +
+                        "**************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case UPDATE:
+                System.out.println("" +
+                        "**************************************************\n" +
+                        "*** ZipCo Inventory Manager - Enter Command(U) ***\n" +
+                        "**************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case DELETE:
+                System.out.println("" +
+                        "**************************************************\n" +
+                        "*** ZipCo Inventory Manager - Enter Command(D) ***\n" +
+                        "**************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case REPORT:
+                System.out.println("" +
+                        "**************************************************\n" +
+                        "*** ZipCo Inventory Manager - Enter Command(R) ***\n" +
                         "**************************************************\n");
                 if (promptForInput) {
                     reprompt();
@@ -176,12 +210,10 @@ public abstract class AbstractConsole
     private static boolean commandExistsElsewhere(String cmd) {
         Console console = new Console();
         CreateConsole creator = new CreateConsole();
-        ReadConsole reader = new ReadConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
         if (console.commandExists(cmd)) { return true; }
         else if (creator.commandExists(cmd)) { return true; }
-        else if (reader.commandExists(cmd)) { return true; }
         else if (deletor.commandExists(cmd)) { return true; }
         else if (updater.commandExists(cmd)) { return true; }
         return false;
@@ -190,12 +222,10 @@ public abstract class AbstractConsole
     private static AbstractConsole commandExistsInOtherConsole(String cmd) {
         Console console = new Console();
         CreateConsole creator = new CreateConsole();
-        ReadConsole reader = new ReadConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
         if (console.commandExists(cmd)) { return console; }
         else if (creator.commandExists(cmd)) { return creator; }
-        else if (reader.commandExists(cmd)) { return reader; }
         else if (deletor.commandExists(cmd)) { return deletor; }
         else if (updater.commandExists(cmd)) { return updater; }
         return null;

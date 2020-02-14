@@ -11,7 +11,11 @@ public class Figurine extends Product {
     public Figurine() { }
 
     public Figurine(String name) {
-        this.name = name;
+        this(name, "Colorless");
+    }
+
+    public Figurine(String name, String color) {
+        this(name, 0, 0, 0, 0.0, color, 0);
     }
 
     public Figurine(String name, int height, int weight, int width, double price, String color, int id) {

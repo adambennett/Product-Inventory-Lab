@@ -1,7 +1,11 @@
 package services;
 
+import io.App;
 import models.BoardGame;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardGameService {
@@ -12,6 +16,34 @@ public class BoardGameService {
         BoardGame createdGame = new BoardGame(gameName, manufacturer, ageMinimum, ageMax, avgPlayingTime, id);
         inventory.add(createdGame);
         return createdGame;
+    }
+
+    private void loadData(){
+        // (1)
+        String csvFile = "/Users/Adam/Desktop/Inventory.csv";
+        String line = "";
+        String csvSplitBy = ",";
+
+        // (2)
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            nextId = Integer.parseInt(br.readLine());  // (3)
+
+            while ((line = br.readLine()) != null) {
+                // split line with comma
+                String[] game = line.split(csvSplitBy);
+
+                // (4)
+                int playtime = Integer.parseInt(game[0]);
+                String name = game[1];
+                int ageMin = Integer.parseInt(game[2]);
+                int ageMax = Integer.parseInt(game[3]);
+
+                // (5)
+                App.inventory.add(new BoardGame(name, "", ageMin, ageMax, playtime));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //read
