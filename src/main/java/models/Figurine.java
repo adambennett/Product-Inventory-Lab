@@ -22,6 +22,7 @@ public class Figurine extends Product {
         this.price = price;
         this.color = color;
         this.id = id;
+        this.type = "Figurine";
     }
 
     public int getId() {

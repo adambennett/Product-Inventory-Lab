@@ -38,6 +38,26 @@ public class Inventory {
         return null;
     }
 
+    public static Integer amtOfProduct(Product p) {
+        int amt = 0;
+        for (Product prod : allProducts) {
+            if (prod.getType().equals(p.getType())) {
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public static Integer amtOfProductByName(Product p) {
+        int amt = 0;
+        for (Product prod : allProducts) {
+            if (prod.getName().equals(p.getName())) {
+                amt++;
+            }
+        }
+        return amt;
+    }
+
     static {
         allProducts = new ArrayList<>();
     }
