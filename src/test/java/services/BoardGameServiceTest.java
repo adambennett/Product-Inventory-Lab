@@ -19,7 +19,7 @@ class BoardGameServiceTest {
         BoardGame game = bgService.create(expectedName, expectedManufacturer, expectedAgeMin, expectedAgeMax, expectedPlaytime, expectedID);
 
 
-        String actualName = game.getGameName();
+        String actualName = game.getName();
         int actualID = game.getId();
         int actualAgeMin = game.getAgeMinimum();
         int actualAgeMax = game.getAgeMax();

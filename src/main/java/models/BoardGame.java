@@ -1,7 +1,6 @@
 package models;
 
-public class BoardGame {
-    private String gameName;
+public class BoardGame extends Product {
     private String manufacturer;
     private int ageMinimum;
     private int ageMax;
@@ -11,7 +10,7 @@ public class BoardGame {
     public BoardGame() { }
 
     public BoardGame(String gameName, String manufacturer, int avgPlayingTime, int id) {
-        this.gameName = gameName;
+        this.name = gameName;
         this.manufacturer = manufacturer;
         this.avgPlayingTime = avgPlayingTime;
         this.ageMinimum = 0;
@@ -20,7 +19,7 @@ public class BoardGame {
     }
 
     public BoardGame(String gameName, String manufacturer, int ageMinimum, int ageMax, int avgPlayingTime, int id) {
-        this.gameName = gameName;
+        this.name = gameName;
         this.manufacturer = manufacturer;
         this.ageMinimum = ageMinimum;
         this.ageMax = ageMax;
@@ -34,14 +33,6 @@ public class BoardGame {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
     }
 
     public String getManufacturer() {

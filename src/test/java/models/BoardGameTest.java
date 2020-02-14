@@ -2,10 +2,6 @@ package models;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import services.BoardGameService;
-import services.FigurineService;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BoardGameTest {
 
@@ -18,10 +14,10 @@ class BoardGameTest {
 
         // when (2)
         testGame = new BoardGame();
-        testGame.setGameName(expected);
+        testGame.setName(expected);
 
         // then (3)
-        Assertions.assertEquals(expected, testGame.getGameName());
+        Assertions.assertEquals(expected, testGame.getName());
     }
 
     @Test
@@ -35,7 +31,7 @@ class BoardGameTest {
 
        BoardGame game = new BoardGame(expectedName, expectedManufacturer, expectedAgeMin, expectedAgeMax, expectedPlaytime, expectedID);
 
-        String actualName = game.getGameName();
+        String actualName = game.getName();
         int actualID = game.getId();
         int actualAgeMin = game.getAgeMinimum();
         int actualAgeMax = game.getAgeMax();
