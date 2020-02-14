@@ -17,7 +17,7 @@ public class CreateConsole extends AbstractConsole {
 
     @Override
     public void runOnBadCommand(ArrayList<String> originalArgs) {
-        run(Command.BAD_COMMAND, originalArgs);
+        run(Command.RETURN, originalArgs);
     }
 
     @Override
