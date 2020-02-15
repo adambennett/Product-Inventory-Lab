@@ -2,6 +2,7 @@ package io;
 
 import models.BoardGame;
 import models.Figurine;
+import models.Inventory;
 import models.Product;
 import services.ConsoleService;
 
@@ -76,23 +77,10 @@ public class Console extends AbstractConsole {
     }
 
     private void printReadList() {
-        ArrayList<String> uniques = new ArrayList<>();
-        for (Product p : App.inventory.getProducts()) {
-            String s = "[" + App.inventory.amtOfProductByName(p) + "]: " + p.getName();
-            if (p instanceof BoardGame) {
-                BoardGame bg = (BoardGame)p;
-                s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
-            }
-            else if (p instanceof Figurine) {
-                Figurine fig = (Figurine)p;
-                s += " (" + fig.getColor() + ")";
-            }
-            if (!uniques.contains(s)) {
-                uniques.add(s);
-            }
-        }
-        for (String s : uniques) {
+        for (String s : AbstractConsole.getListOfProducts()) {
             System.out.println(s);
         }
     }
+
+
 }

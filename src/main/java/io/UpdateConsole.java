@@ -23,7 +23,7 @@ public class UpdateConsole extends AbstractConsole {
     public void run(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             case LIST:
-                //TODO
+                printPrompt(PromptMessage.LIST, true);
                 return;
             case ADD:
                 //TODO

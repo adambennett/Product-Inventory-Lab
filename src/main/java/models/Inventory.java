@@ -1,10 +1,14 @@
 package models;
 
+import services.BoardGameService;
+import services.FigurineService;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Inventory {
 
-    private static ArrayList<Product> allProducts;
+    private static ArrayList<Product> allProducts; //= new ArrayList<>();
 
     public static ArrayList<Product> getProducts() {
         return allProducts;
@@ -16,6 +20,19 @@ public class Inventory {
 
     public static void remove(Product p) {
         allProducts.remove(p);
+    }
+
+    public static void remove(int ID) {
+        ArrayList<Product> toRemove = new ArrayList<>();
+        for (Product p : allProducts) {
+            if (p.getId() == ID) {
+                toRemove.add(p);
+            }
+        }
+
+        for (Product p : toRemove) {
+            allProducts.remove(p);
+        }
     }
 
     public static Integer size() {
@@ -58,8 +75,15 @@ public class Inventory {
         return amt;
     }
 
+    public static void loadData() {
+        BoardGameService.loadData();
+        FigurineService.loadData();
+    }
+
     static {
         allProducts = new ArrayList<>();
+        //BoardGameService.loadData();
+        //FigurineService.loadData();
     }
 
 }

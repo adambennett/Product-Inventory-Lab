@@ -1,6 +1,7 @@
 package io;
 
 import models.BoardGame;
+import models.Inventory;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,7 @@ public class CreateConsole extends AbstractConsole {
                         } else {
                             game = new BoardGame(name);
                         }
-                        App.inventory.add(game);
+                        Inventory.add(game);
                         printPrompt(PromptMessage.STANDARD, true);
                         return;
                     }

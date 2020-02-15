@@ -2,8 +2,10 @@ package services;
 
 import io.App;
 import models.Figurine;
+import models.Inventory;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class FigurineService {
         return createdGame;
     }
 
-    private void loadData(){
+    public static void loadData(){
         // (1)
         String csvFile = "/Users/Adam/Desktop/Inventory.csv";
         String line = "";
@@ -37,10 +39,10 @@ public class FigurineService {
                 String name = figure[1];
 
                 // (5)
-                App.inventory.add(new Figurine(name, color));
+                Inventory.add(new Figurine(name, color));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

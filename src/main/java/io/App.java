@@ -5,9 +5,6 @@ import services.FigurineService;
 
 public class App {
 
-    private FigurineService figService = new FigurineService();
-    public static Inventory inventory;
-
     public static void main(String[] args)
     {
         App application = new App();
@@ -19,11 +16,9 @@ public class App {
         // application logic here
         // call methods to take user input and interface with services
         Console mainConsole = new Console();
+        Inventory.loadData();
         mainConsole.printPrompt(Console.PromptMessage.WELCOME, true);
     }
 
-    static {
-        inventory = new Inventory();
-    }
 
 }

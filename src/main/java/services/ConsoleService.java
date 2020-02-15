@@ -4,6 +4,7 @@ import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
 import io.App;
 import models.BoardGame;
 import models.Figurine;
+import models.Inventory;
 import models.Product;
 import utils.CSVUtils;
 
@@ -69,21 +70,23 @@ public class ConsoleService {
     }
 
     public static void saveAllInventoryData() throws IOException {
-        String csvFile = "/Users/Adam/Desktop/Inventory.csv";
+        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         FileWriter writer = new FileWriter(csvFile); //(1)
 
         CSVUtils.writeLine(writer, new ArrayList<String>(Arrays.asList(String.valueOf(nextId))));  // (2)
 
-        for (Product s : App.inventory.getProducts()) {
+        for (Product s : Inventory.getProducts()) {
             List<String> list = new ArrayList<>();
             if (s instanceof BoardGame) {
                 BoardGame ga = (BoardGame)s;
+                list.add("" + ga.getId());
                 list.add("" + ga.getAvgPlayingTime());
                 list.add(s.getName());
                 list.add("" + ga.getAgeMinimum());
                 list.add("" + ga.getAgeMax());
             } else if (s instanceof Figurine) {
                 Figurine fig = (Figurine)s;
+                list.add("" + fig.getId());
                 list.add(fig.getColor());
                 list.add(s.getName());
             }

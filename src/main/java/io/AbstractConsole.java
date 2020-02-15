@@ -1,5 +1,9 @@
 package io;
 
+import models.BoardGame;
+import models.Figurine;
+import models.Inventory;
+import models.Product;
 import services.ConsoleService;
 
 import java.util.ArrayList;
@@ -40,7 +44,13 @@ public abstract class AbstractConsole
         REPORT,
         STANDARD,
         UPDATE,
-        WELCOME
+        WELCOME,
+        REMOVE,
+        MODIFY,
+        LIST,
+        ADD,
+        SUB,
+        SET
     }
 
     public AbstractConsole() {
@@ -123,7 +133,7 @@ public abstract class AbstractConsole
             case STANDARD:
                 System.out.println("" +
                         "**************************************************\n" +
-                        "***  ZipCo Inventory Manager - Enter a Command ***\n" +
+                        "***     ZipCo Inventory Manager - Main Menu    ***\n" +
                         "**************************************************\n");
                 if (promptForInput) {
                     reprompt();
@@ -132,7 +142,7 @@ public abstract class AbstractConsole
             case CREATE:
                 System.out.println("" +
                         "**************************************************\n" +
-                        "***   ZipCo Inventory Manager - Products Menu  ***\n" +
+                        "***    ZipCo Inventory Manager - Create Menu   ***\n" +
                         "***                                            ***\n" +
                         "***                                            ***\n" +
                         "***         Board Game - Enter 'Game'          ***\n" +
@@ -145,10 +155,17 @@ public abstract class AbstractConsole
                 }
                 return;
             case UPDATE:
+                String forLengthChecksD = "***                                                         ***";
+                String allProductsD = getStringOfProducts(forLengthChecksD.length());
                 System.out.println("" +
-                        "**************************************************\n" +
-                        "*** ZipCo Inventory Manager - Enter Command(U) ***\n" +
-                        "**************************************************\n");
+                        "***************************************************************\n" +
+                        "***         ZipCo Inventory Manager - Update Menu         ***\n" +
+                        "***                                                         ***\n" +
+                        "***                                                         ***\n" +
+                        allProductsD +
+                        "***                                                         ***\n" +
+                        "***           Enter 'Help' for a List of Commands           ***\n" +
+                        "***************************************************************\n");
                 if (promptForInput) {
                     reprompt();
                 }
@@ -170,6 +187,59 @@ public abstract class AbstractConsole
                 if (promptForInput) {
                     reprompt();
                 }
+                return;
+            case REMOVE:
+                String forLengthChecks = "***                                                         ***";
+                String allProducts = getStringOfProducts(forLengthChecks.length());
+                System.out.println("" +
+                        "***************************************************************\n" +
+                        "***         ZipCo Inventory Manager - Products Menu         ***\n" +
+                        "***                                                         ***\n" +
+                        "***                                                         ***\n" +
+                        allProducts +
+                        "***                                                         ***\n" +
+                        "***           Enter 'Help' for a List of Commands           ***\n" +
+                        "***     Enter 'Remove' and Product ID to Remove Product     ***\n" +
+                        "***************************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case ADD:
+                String forLengthChecksC = "***                                                         ***";
+                String allProductsC = getStringOfProducts(forLengthChecksC.length());
+                System.out.println("" +
+                        "***************************************************************\n" +
+                        "***         ZipCo Inventory Manager - Products Menu         ***\n" +
+                        "***                                                         ***\n" +
+                        "***                                                         ***\n" +
+                        allProductsC +
+                        "***                                                         ***\n" +
+                        "***           Enter 'Help' for a List of Commands           ***\n" +
+                        "***  Enter 'Add' and Product ID to Increase Quantity by 1   ***\n" +
+                        "***************************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case LIST:
+                String forLengthChecksB = "***                                                         ***";
+                String allProductsB = getStringOfProducts(forLengthChecksB.length());
+                System.out.println("" +
+                        "***************************************************************\n" +
+                        "***         ZipCo Inventory Manager - Products Menu         ***\n" +
+                        "***                                                         ***\n" +
+                        "***                                                         ***\n" +
+                        allProductsB +
+                        "***                                                         ***\n" +
+                        "***           Enter 'Help' for a List of Commands           ***\n" +
+                        "***************************************************************\n");
+                if (promptForInput) {
+                    reprompt();
+                }
+                return;
+            case MODIFY:
+
                 return;
             default:
                 printPrompt(PromptMessage.STANDARD, promptForInput);
@@ -229,6 +299,56 @@ public abstract class AbstractConsole
         else if (deletor.commandExists(cmd)) { return deletor; }
         else if (updater.commandExists(cmd)) { return updater; }
         return null;
+    }
+
+    public static String getStringOfProducts(int lengthToCheck) {
+        ArrayList<String> uniques = new ArrayList<>();
+        String toRet = "";
+        for (Product p : Inventory.getProducts()) {
+            String prefix = "***";
+            String suffix = "***\n";
+            String space = " ";
+            String productInfo =  "[" + p.getId() + "]: " + p.getName();
+            int reductionCounter = productInfo.length();
+            while (productInfo.length() + suffix.length() + prefix.length() > lengthToCheck) {
+                productInfo = productInfo.substring(0, reductionCounter);
+                reductionCounter--;
+            }
+            boolean flipSpaceToAdd = false;
+            while (productInfo.length() + suffix.length() + prefix.length() < lengthToCheck + 1) {
+                if (flipSpaceToAdd) { prefix += space; }
+                else { suffix = space + suffix; }
+                flipSpaceToAdd = !flipSpaceToAdd;
+            }
+            productInfo = prefix + productInfo + suffix;
+            if (!uniques.contains(productInfo)) {
+                uniques.add(productInfo);
+            }
+        }
+        for (String s : uniques) {
+            toRet += s;
+        }
+
+        return toRet;
+    }
+
+    public static ArrayList<String> getListOfProducts() {
+        ArrayList<String> uniques = new ArrayList<>();
+        for (Product p : Inventory.getProducts()) {
+            String s = "[" + Inventory.amtOfProductByName(p) + "]: " + p.getName();
+            if (p instanceof BoardGame) {
+                BoardGame bg = (BoardGame)p;
+                s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
+            }
+            else if (p instanceof Figurine) {
+                Figurine fig = (Figurine)p;
+                s += " (" + fig.getColor() + ")";
+            }
+            if (!uniques.contains(s)) {
+                uniques.add(s);
+            }
+        }
+        return uniques;
     }
 
     protected abstract void setupCommands();

@@ -2,7 +2,9 @@ package services;
 
 import io.App;
 import models.BoardGame;
+import models.Inventory;
 
+import java.awt.font.NumericShaper;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,31 +20,43 @@ public class BoardGameService {
         return createdGame;
     }
 
-    private void loadData(){
+    public static void loadData(){
         // (1)
-        String csvFile = "/Users/Adam/Desktop/Inventory.csv";
+        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";
 
         // (2)
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             nextId = Integer.parseInt(br.readLine());  // (3)
-
             while ((line = br.readLine()) != null) {
                 // split line with comma
                 String[] game = line.split(csvSplitBy);
 
                 // (4)
-                int playtime = Integer.parseInt(game[0]);
-                String name = game[1];
-                int ageMin = Integer.parseInt(game[2]);
-                int ageMax = Integer.parseInt(game[3]);
+                int id = -1;
+                int playtime = 60;
+                String name = "";
+                int ageMin = 13;
+                int ageMax = 99;
+                try {
+                    id = Integer.parseInt(game[0]);
+                    playtime = Integer.parseInt(game[1]);
+                    name = game[2];
+                    ageMin = Integer.parseInt(game[3]);
+                    ageMax = Integer.parseInt(game[4]);
+                } catch (NumberFormatException e) {
+                    //e.printStackTrace();
+                }
 
                 // (5)
-                App.inventory.add(new BoardGame(name, "", ageMin, ageMax, playtime));
+                if (!name.equals("")) {
+                    Inventory.add(new BoardGame(name, "", ageMin, ageMax, playtime, id));
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } catch (IOException|NumberFormatException e) {
+           // e.printStackTrace();
         }
     }
 
