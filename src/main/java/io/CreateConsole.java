@@ -1,6 +1,7 @@
 package io;
 
 import models.BoardGame;
+import models.Figurine;
 import models.Inventory;
 
 import java.util.ArrayList;
@@ -24,8 +25,28 @@ public class CreateConsole extends AbstractConsole {
     public void run(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             case FIGURINE:
-                //TODO
-                return;
+                Figurine figure;
+                for (int i = 0; i < args.size(); i++) {
+                    try {
+                        Integer numChecker = Integer.parseInt(args.get(i));
+                        args.remove(i);
+                    } catch (NumberFormatException e) {}
+                }
+                if (args.size() > 1) {
+                    figure = new Figurine(args.get(0), args.get(1));
+                    Inventory.add(figure);
+                    printPrompt(PromptMessage.STANDARD, true);
+                    return;
+                } else if (args.size() > 0) {
+                    figure = new Figurine(args.get(0));
+                    Inventory.add(figure);
+                    printPrompt(PromptMessage.STANDARD, true);
+                    return;
+                } else {
+                    System.out.println("Improper arguments. Expecting FIGURINE command to be followed by some combination of: figurine name and figurine color.");
+                    printPrompt(PromptMessage.STANDARD, true);
+                    return;
+                }
             case BOARDGAME:
                 if (args.size() > 0) {
                     ArrayList<Integer> nums = new ArrayList<>();

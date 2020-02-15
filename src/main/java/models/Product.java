@@ -1,10 +1,16 @@
 package models;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Product {
 
     protected String name;
     protected String type;
     protected int id;
+
+    protected static int generateID() {
+        return ThreadLocalRandom.current().nextInt(0, 1000) + ThreadLocalRandom.current().nextInt(ThreadLocalRandom.current().nextInt(1, 5), ThreadLocalRandom.current().nextInt(10, 3000));
+    }
 
     public String getName() {
         return name;

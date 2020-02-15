@@ -1,11 +1,9 @@
 package services;
 
-import io.App;
 import models.Figurine;
 import models.Inventory;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,35 +12,47 @@ public class FigurineService {
     private static int nextId = 1;
     private ArrayList<Figurine> inventory = new ArrayList<>();
 
-    public Figurine create(String name, int height, int weight, int width, double price, String color, int id) {
-        Figurine createdGame = new Figurine(name, height, weight, width, price, color, id);
+    public Figurine create(String name, String color, int id) {
+        Figurine createdGame = new Figurine(name, color, id);
         inventory.add(createdGame);
         return createdGame;
     }
 
     public static void loadData(){
         // (1)
-        String csvFile = "/Users/Adam/Desktop/Inventory.csv";
+        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";
 
         // (2)
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             nextId = Integer.parseInt(br.readLine());  // (3)
-
             while ((line = br.readLine()) != null) {
                 // split line with comma
-                String[] figure = line.split(csvSplitBy);
+                String[] game = line.split(csvSplitBy);
 
                 // (4)
-                String color = figure[0];
-                String name = figure[1];
+                String type = "";
+                int id = -1;
+                String name = "";
+                String color = "";
+                try {
+                    type = game[0];
+                    id = Integer.parseInt(game[1]);
+                    color = game[2];
+                    name = game[3];
+                } catch (NumberFormatException|IndexOutOfBoundsException e) {
+                    //e.printStackTrace();
+                }
 
                 // (5)
-                Inventory.add(new Figurine(name, color));
+                if (!name.equals("") && type.equals("FIG")) {
+                    Inventory.add(new Figurine(name, color, id));
+                }
             }
-        } catch (IOException e) {
-            //e.printStackTrace();
+
+        } catch (IOException|NumberFormatException e) {
+            // e.printStackTrace();
         }
     }
 

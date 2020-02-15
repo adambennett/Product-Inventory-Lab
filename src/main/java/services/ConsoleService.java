@@ -1,7 +1,6 @@
 package services;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
-import io.App;
 import models.BoardGame;
 import models.Figurine;
 import models.Inventory;
@@ -79,6 +78,7 @@ public class ConsoleService {
             List<String> list = new ArrayList<>();
             if (s instanceof BoardGame) {
                 BoardGame ga = (BoardGame)s;
+                list.add("BOARD");
                 list.add("" + ga.getId());
                 list.add("" + ga.getAvgPlayingTime());
                 list.add(s.getName());
@@ -86,6 +86,7 @@ public class ConsoleService {
                 list.add("" + ga.getAgeMax());
             } else if (s instanceof Figurine) {
                 Figurine fig = (Figurine)s;
+                list.add("FIG");
                 list.add("" + fig.getId());
                 list.add(fig.getColor());
                 list.add(s.getName());

@@ -19,13 +19,9 @@ class FigurineServiceTest {
         int expectedID = 55;
 
         FigurineService figService = new FigurineService();
-        Figurine testFig = figService.create(expectedName, expectedHeight, expectedWeight, expectedWidth, expectedPrice, expectedColor, expectedID);
+        Figurine testFig = figService.create(expectedName, expectedColor, expectedID);
 
         String actualName = testFig.getName();
-        double actualPrice = testFig.getPrice();
-        int actualHeight = testFig.getHeight();
-        int actualWeight = testFig.getWeight();
-        int actualWidth = testFig.getWidth();
         String actualColor = testFig.getColor();
         int actualID = testFig.getId();
 
@@ -33,11 +29,7 @@ class FigurineServiceTest {
         // (4)
         Assertions.assertEquals(Integer.class.getName(), new Integer(actualID).getClass().getName());
         Assertions.assertEquals(expectedName, actualName);
-        Assertions.assertEquals(expectedHeight, actualHeight);
-        Assertions.assertEquals(expectedWeight, actualWeight);
-        Assertions.assertEquals(expectedWidth, actualWidth);
         Assertions.assertEquals(expectedColor, actualColor);
-        Assertions.assertEquals(expectedPrice, actualPrice);
 
     }
 
@@ -45,7 +37,7 @@ class FigurineServiceTest {
     @Test
     void findFigure() {
         FigurineService figService = new FigurineService();
-        Figurine figure = figService.create("Gandalf", 0, 0, 0, 0, "White", 1);
+        Figurine figure = figService.create("Gandalf", "White", 1);
 
         Assertions.assertEquals(figure, figService.findFigure(figure.getId()));
     }
@@ -59,7 +51,7 @@ class FigurineServiceTest {
     @Test
     void delete() {
         FigurineService figService = new FigurineService();
-        Figurine figure = figService.create("Gandalf", 0, 0, 0, 0, "White", 1);
+        Figurine figure = figService.create("Gandalf", "White", 1);
 
         Assertions.assertTrue(figService.delete(1));
     }

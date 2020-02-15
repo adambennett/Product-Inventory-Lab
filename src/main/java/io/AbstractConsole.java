@@ -193,7 +193,7 @@ public abstract class AbstractConsole
                 String allProducts = getStringOfProducts(forLengthChecks.length());
                 System.out.println("" +
                         "***************************************************************\n" +
-                        "***         ZipCo Inventory Manager - Products Menu         ***\n" +
+                        "***          ZipCo Inventory Manager - Remove Menu          ***\n" +
                         "***                                                         ***\n" +
                         "***                                                         ***\n" +
                         allProducts +
@@ -210,7 +210,7 @@ public abstract class AbstractConsole
                 String allProductsC = getStringOfProducts(forLengthChecksC.length());
                 System.out.println("" +
                         "***************************************************************\n" +
-                        "***         ZipCo Inventory Manager - Products Menu         ***\n" +
+                        "***           ZipCo Inventory Manager - Add Menu            ***\n" +
                         "***                                                         ***\n" +
                         "***                                                         ***\n" +
                         allProductsC +

@@ -1,10 +1,8 @@
 package services;
 
-import io.App;
 import models.BoardGame;
 import models.Inventory;
 
-import java.awt.font.NumericShaper;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,18 +37,20 @@ public class BoardGameService {
                 String name = "";
                 int ageMin = 13;
                 int ageMax = 99;
+                String type = "";
                 try {
-                    id = Integer.parseInt(game[0]);
-                    playtime = Integer.parseInt(game[1]);
-                    name = game[2];
-                    ageMin = Integer.parseInt(game[3]);
-                    ageMax = Integer.parseInt(game[4]);
-                } catch (NumberFormatException e) {
+                    type = game[0];
+                    id = Integer.parseInt(game[1]);
+                    playtime = Integer.parseInt(game[2]);
+                    name = game[3];
+                    ageMin = Integer.parseInt(game[4]);
+                    ageMax = Integer.parseInt(game[5]);
+                } catch (NumberFormatException|IndexOutOfBoundsException e) {
                     //e.printStackTrace();
                 }
 
                 // (5)
-                if (!name.equals("")) {
+                if (!name.equals("") && type.equals("BOARD")) {
                     Inventory.add(new BoardGame(name, "", ageMin, ageMax, playtime, id));
                 }
             }

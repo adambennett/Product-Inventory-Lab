@@ -1,7 +1,5 @@
 package models;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class BoardGame extends Product {
     private String manufacturer;
     private int ageMinimum;
@@ -41,10 +39,6 @@ public class BoardGame extends Product {
         this.avgPlayingTime = avgPlayingTime;
         this.id = id;
         this.type = "Board Game";
-    }
-
-    private static int generateID() {
-        return ThreadLocalRandom.current().nextInt(0, 1000) + ThreadLocalRandom.current().nextInt(ThreadLocalRandom.current().nextInt(1, 5), ThreadLocalRandom.current().nextInt(10, 3000));
     }
 
     public int getId() {
