@@ -1,5 +1,7 @@
 package io;
 
+import models.Inventory;
+
 import java.util.ArrayList;
 
 public class UpdateConsole extends AbstractConsole {
@@ -26,7 +28,15 @@ public class UpdateConsole extends AbstractConsole {
                 printPrompt(PromptMessage.LIST, true);
                 return;
             case ADD:
-                //TODO
+                for (String s : args) {
+                    try {
+                        Integer num = Integer.parseInt(s);
+                        Inventory.increaseAmtOfProduct(num, 1);
+                    } catch (NumberFormatException e) {
+                        Inventory.increaseAmtOfProduct(s, 1);
+                    }
+                }
+                printPrompt(PromptMessage.ADD, true);
                 return;
             case SUB:
                 //TODO

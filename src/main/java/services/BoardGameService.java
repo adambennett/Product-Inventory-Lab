@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardGameService {
-    private static int nextId = 1;
     private ArrayList<BoardGame> inventory = new ArrayList<>();
 
     public BoardGame create(String gameName, String manufacturer, int ageMinimum, int ageMax, int avgPlayingTime, int id) {
@@ -26,7 +25,6 @@ public class BoardGameService {
 
         // (2)
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            nextId = Integer.parseInt(br.readLine());  // (3)
             while ((line = br.readLine()) != null) {
                 // split line with comma
                 String[] game = line.split(csvSplitBy);

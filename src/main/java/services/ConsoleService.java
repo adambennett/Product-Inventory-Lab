@@ -10,14 +10,10 @@ import utils.CSVUtils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
-
-    private static int nextId = 0;
-
     public static Float getFloatInput(String prompt) {
         Scanner scanner = new Scanner(System.in);
         Util.println(prompt);
@@ -71,9 +67,6 @@ public class ConsoleService {
     public static void saveAllInventoryData() throws IOException {
         String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         FileWriter writer = new FileWriter(csvFile); //(1)
-
-        CSVUtils.writeLine(writer, new ArrayList<String>(Arrays.asList(String.valueOf(nextId))));  // (2)
-
         for (Product s : Inventory.getProducts()) {
             List<String> list = new ArrayList<>();
             if (s instanceof BoardGame) {
