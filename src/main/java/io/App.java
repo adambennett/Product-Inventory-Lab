@@ -1,7 +1,6 @@
 package io;
 
 import models.Inventory;
-import services.FigurineService;
 
 public class App {
 
@@ -12,13 +11,9 @@ public class App {
     }
 
     public void init(){
-        // (4)
-        // application logic here
-        // call methods to take user input and interface with services
-        Console mainConsole = new Console();
         Inventory.loadData();
+        Console mainConsole = new Console();
         mainConsole.printPrompt(Console.PromptMessage.WELCOME, true);
     }
-
 
 }

@@ -43,10 +43,10 @@ class AbstractConsoleTest {
             DeleteConsole deletor = new DeleteConsole();
             UpdateConsole updater = new UpdateConsole();
 
-            Method consoleMethod = console.getClass().getDeclaredMethod("commandExistsElsewhere", Console.class);
-            Method creatorMethod = creator.getClass().getDeclaredMethod("commandExistsElsewhere", CreateConsole.class);
-            Method deletorMethod = deletor.getClass().getDeclaredMethod("commandExistsElsewhere", DeleteConsole.class);
-            Method updaterMethod = updater.getClass().getDeclaredMethod("commandExistsElsewhere", UpdateConsole.class);
+            Method consoleMethod = console.getClass().getDeclaredMethod("isValidCommandInAnyConsole", Console.class);
+            Method creatorMethod = creator.getClass().getDeclaredMethod("isValidCommandInAnyConsole", CreateConsole.class);
+            Method deletorMethod = deletor.getClass().getDeclaredMethod("isValidCommandInAnyConsole", DeleteConsole.class);
+            Method updaterMethod = updater.getClass().getDeclaredMethod("isValidCommandInAnyConsole", UpdateConsole.class);
 
             consoleMethod.setAccessible(true);
             creatorMethod.setAccessible(true);

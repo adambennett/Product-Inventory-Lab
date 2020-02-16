@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class ConsoleService {
     public static Float getFloatInput(String prompt) {
@@ -57,30 +56,16 @@ public class ConsoleService {
         return userInput;
     }
 
-    public static void print(String output, Object... args) {
-        System.out.printf(output, args);
-    }
-
-    public static void println(String output, Object... args) {
-        print(output + "\n", args);
-    }
-
-    public static void prln(String print) {
-        System.out.println(print);
-    }
-
     public static void saveAllInventoryDataAsJSON() {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
             writer.writeValue(new File("/Users/abennett/Desktop/Figurines.json"), Inventory.getFigurines());
             writer.writeValue(new File("/Users/abennett/Desktop/BoardGames.json"), Inventory.getBoardGames());
-            Logger.getGlobal().info("Saved Inventory JSON data successfully.");
-        }  catch (IOException e) {
-            Logger.getGlobal().info("IOException!! Did NOT save Inventory JSON data!");
-        }
+        }  catch (IOException e) {}
     }
 
+    @Deprecated
     public static void saveAllInventoryData() throws IOException {
         String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         FileWriter writer = new FileWriter(csvFile); //(1)
@@ -109,9 +94,4 @@ public class ConsoleService {
         writer.close();
     }
 
-    public static String capFirstLetter(String s) {
-        String color = s.toLowerCase();
-        color = color.substring(0, 1).toUpperCase() + color.substring(1, color.length());
-        return color;
-    }
 }

@@ -7,15 +7,20 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-    private static ArrayList<Product> allProducts; //= new ArrayList<>();
+    private static ArrayList<Product> currentInventory;
+    private static ArrayList<Product> rollbackList;
+
+    public static void rollback() {
+        currentInventory = rollbackList;
+    }
 
     public static ArrayList<Product> getProducts() {
-        return allProducts;
+        return currentInventory;
     }
 
     public static ArrayList<Figurine> getFigurines() {
         ArrayList<Figurine> toRet = new ArrayList<>();
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p instanceof Figurine) {
                 toRet.add((Figurine) p);
             }
@@ -25,16 +30,12 @@ public class Inventory {
 
     public static ArrayList<BoardGame> getBoardGames() {
         ArrayList<BoardGame> toRet = new ArrayList<>();
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p instanceof BoardGame) {
                 toRet.add((BoardGame) p);
             }
         }
         return toRet;
-    }
-
-    public static void loadProducts(ArrayList<Product> products) {
-        allProducts = products;
     }
 
     public static void loadProductsFig(ArrayList<Figurine> figures) {
@@ -49,8 +50,20 @@ public class Inventory {
         }
     }
 
+    public static void loadRollBackBG(ArrayList<BoardGame> games) {
+        for (BoardGame g : games) {
+            addRollback(g);
+        }
+    }
+
+    public static void loadRollBackFig(ArrayList<Figurine> figures) {
+        for (Figurine f : figures) {
+            addRollback(f);
+        }
+    }
+
     public static void clear() {
-        allProducts.clear();
+        currentInventory.clear();
     }
 
     public static void add(Product p) {
@@ -59,28 +72,50 @@ public class Inventory {
             p.setId(Product.generateID());
             loopMax--;
         }
-        allProducts.add(p);
+        currentInventory.add(p);
+    }
+
+    public static void addRollback(Product p) {
+        int loopMax = 100;
+        while (isProduct(p.getId()) && loopMax > 0) {
+            p.setId(Product.generateID());
+            loopMax--;
+        }
+        rollbackList.add(p);
     }
 
     public static void remove(Product p) {
-        allProducts.remove(p);
+        currentInventory.remove(p);
     }
 
     public static void remove(int ID) {
         ArrayList<Product> toRemove = new ArrayList<>();
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p.getId() == ID) {
                 toRemove.add(p);
             }
         }
 
         for (Product p : toRemove) {
-            allProducts.remove(p);
+            currentInventory.remove(p);
+        }
+    }
+
+    public static void remove(String name) {
+        ArrayList<Product> toRemove = new ArrayList<>();
+        for (Product p : currentInventory) {
+            if (p.getName().toLowerCase().equals(name.toLowerCase())) {
+                toRemove.add(p);
+            }
+        }
+
+        for (Product p : toRemove) {
+            currentInventory.remove(p);
         }
     }
 
     public static Boolean isProduct(int id) {
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p.getId() == id) {
                 return true;
             }
@@ -89,7 +124,7 @@ public class Inventory {
     }
 
     public static Boolean isProduct(String name) {
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p.getName().toLowerCase().equals(name.toLowerCase())) {
                 return true;
             }
@@ -98,16 +133,16 @@ public class Inventory {
     }
 
     public static Integer size() {
-        return allProducts.size();
+        return currentInventory.size();
     }
 
     public static void set(Product p, int index) {
-        allProducts.set(index, p);
+        currentInventory.set(index, p);
     }
 
     public static Product get(Product p) {
-        if (allProducts.contains(p)) {
-            for (Product prod : allProducts) {
+        if (currentInventory.contains(p)) {
+            for (Product prod : currentInventory) {
                 if (prod.equals(p)) {
                    return prod;
                 }
@@ -119,7 +154,7 @@ public class Inventory {
 
     public static Integer amtOfProductByType(Product p) {
         int amt = 0;
-        for (Product prod : allProducts) {
+        for (Product prod : currentInventory) {
             if (prod.getType().equals(p.getType())) {
                 amt++;
             }
@@ -129,7 +164,7 @@ public class Inventory {
 
     public static Integer amtOfProductByName(Product p) {
         int amt = 0;
-        for (Product prod : allProducts) {
+        for (Product prod : currentInventory) {
             if (p instanceof Figurine && prod instanceof Figurine) {
                 Figurine fig = (Figurine)p;
                 Figurine figB = (Figurine)prod;
@@ -146,7 +181,7 @@ public class Inventory {
 
     public static void increaseAmtOfProduct(int id, int amt, boolean copyExact) {
         ArrayList<Product> toAdd = new ArrayList<>();
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p.getId() == id) {
                 if (p instanceof Figurine) {
                    toAdd.add(p);
@@ -163,7 +198,7 @@ public class Inventory {
 
     public static void increaseAmtOfProduct(String prodName, int amt, boolean copyExact) {
         ArrayList<Product> toAdd = new ArrayList<>();
-        for (Product p : allProducts) {
+        for (Product p : currentInventory) {
             if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
                 if (p instanceof Figurine) {
                     toAdd.add(p);
@@ -182,25 +217,22 @@ public class Inventory {
         for (Product p : toAdd) {
             for (int i = 0; i < amt; i++) {
                 if (p instanceof BoardGame) {
-                    allProducts.add(p.copyAsBoardGame());
+                    currentInventory.add(p.copyAsBoardGame());
                 } else if (p instanceof Figurine) {
-                    allProducts.add(p.copyAsFigurine(copyExact));
+                    currentInventory.add(p.copyAsFigurine(copyExact));
                 }
             }
         }
     }
 
     public static void loadData() {
-        BoardGameService.loadData();
         BoardGameService.loadJSONData();
-        FigurineService.loadData();
         FigurineService.loadJSONData();
     }
 
     static {
-        allProducts = new ArrayList<>();
-        //BoardGameService.loadData();
-        //FigurineService.loadData();
+        currentInventory = new ArrayList<>();
+        rollbackList = new ArrayList<>();
     }
 
 }

@@ -7,19 +7,52 @@ import java.util.ArrayList;
 public class UpdateConsole extends AbstractConsole {
 
     @Override
-    protected void setupCommands() {
-        commandMap.put("list", Command.LIST);
-        commandMap.put("add", Command.ADD);
-        commandMap.put("sub", Command.SUB);
-        commandMap.put("set", Command.SET);
-        commandMap.put("return", Command.RETURN);
-        commandMap.put("help", Command.HELP);
-        commandMap.put("rollback", Command.ROLLBACK);
+    protected void initializeCommands() {
+        consoleCommands.put("list", Command.LIST);
+        consoleCommands.put("add", Command.ADD);
+        consoleCommands.put("sub", Command.SUB);
+        consoleCommands.put("set", Command.SET);
+        consoleCommands.put("return", Command.RETURN);
+        consoleCommands.put("help", Command.HELP);
+        consoleCommands.put("rollback", Command.ROLLBACK);
     }
 
     @Override
-    public void runOnBadCommand(ArrayList<String> originalArgs)  {
-        run(Command.RETURN, originalArgs);
+    public void runOnInvalidCommand(ArrayList<String> originalArgs)  {
+        processCommand(Command.RETURN, originalArgs);
+    }
+
+    @Override
+    public void processCommand(Command cmd, ArrayList<String> args) {
+        switch (cmd) {
+            case LIST:
+                printPrompt(PromptMessage.LIST, true);
+                return;
+            case ADD:
+                runAdd(args);
+                printPrompt(PromptMessage.ADD, true);
+                return;
+            case SUB:
+                //TODO
+                // Reduce quantity of products using runAdd() logic
+                return;
+            case SET:
+                //TODO
+                // Set properties of products using runAdd() logic + create game/figure logic
+                return;
+            case ROLLBACK:
+                Inventory.rollback();
+                printPrompt(PromptMessage.UPDATE, true);
+                return;
+            case RETURN:
+                Console console = new Console();
+                console.printPrompt(PromptMessage.STANDARD, true);
+                return;
+            case HELP:
+                printHelpCommand();
+                printPrompt(PromptMessage.STANDARD, true);
+                return;
+        }
     }
 
     public void runAdd(ArrayList<String> args) {
@@ -65,39 +98,6 @@ public class UpdateConsole extends AbstractConsole {
             if (!found) {
                 System.out.println("Improper arguments. Expecting ADD command to be followed by a product identifier (either name or ID) and an amount to increase that product's quantity by.");
             }
-        }
-    }
-
-    @Override
-    public void run(Command cmd, ArrayList<String> args) {
-        switch (cmd) {
-            case LIST:
-                printPrompt(PromptMessage.LIST, true);
-                return;
-            case ADD:
-                runAdd(args);
-                printPrompt(PromptMessage.ADD, true);
-                return;
-            case SUB:
-                //TODO
-                // Reduce quantity of products using runAdd() logic
-                return;
-            case SET:
-                //TODO
-                // Set properties of products using runAdd() logic + create game/figure logic
-                return;
-            case ROLLBACK:
-                //TODO
-                // Should reset the inventory to the initial state upon load (load from CSV/JSON or from copy made on program init?)
-                return;
-            case RETURN:
-                Console console = new Console();
-                console.printPrompt(PromptMessage.STANDARD, true);
-                return;
-            case HELP:
-                printHelpCommand();
-                printPrompt(PromptMessage.STANDARD, true);
-                return;
         }
     }
 }

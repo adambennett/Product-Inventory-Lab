@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 public class ReportConsole extends AbstractConsole {
     @Override
-    protected void setupCommands() {
-        commandMap.put("list", Command.LIST);
-        commandMap.put("report", Command.REPORT);
-        commandMap.put("return", Command.RETURN);
-        commandMap.put("help", Command.HELP);
+    protected void initializeCommands() {
+        consoleCommands.put("list", Command.LIST);
+        consoleCommands.put("report", Command.REPORT);
+        consoleCommands.put("return", Command.RETURN);
+        consoleCommands.put("help", Command.HELP);
     }
 
     @Override
-    public void runOnBadCommand(ArrayList<String> originalArgs)    {
-        run(Command.RETURN, originalArgs);
+    public void runOnInvalidCommand(ArrayList<String> originalArgs)    {
+        processCommand(Command.RETURN, originalArgs);
     }
 
     @Override
-    public void run(Command cmd, ArrayList<String> args) {
+    public void processCommand(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             case LIST:
                 printPrompt(PromptMessage.LIST, true);

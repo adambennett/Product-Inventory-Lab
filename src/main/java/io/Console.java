@@ -1,31 +1,32 @@
 package io;
 
 import services.ConsoleService;
+import utils.Utilities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Console extends AbstractConsole {
 
     @Override
-    protected void setupCommands() {
-        commandMap.put("create", Command.CREATE);
-        commandMap.put("read", Command.READ);
-        commandMap.put("update", Command.UPDATE);
-        commandMap.put("delete", Command.DELETE);
-        commandMap.put("report", Command.REPORT);
-        commandMap.put("exit", Command.EXIT);
-        commandMap.put("exitnosave", Command.HARDEXIT);
-        commandMap.put("help", Command.HELP);
+    protected void initializeCommands() {
+        consoleCommands.put("create", Command.CREATE);
+        consoleCommands.put("read", Command.READ);
+        consoleCommands.put("update", Command.UPDATE);
+        consoleCommands.put("delete", Command.DELETE);
+        consoleCommands.put("report", Command.REPORT);
+        consoleCommands.put("exit", Command.EXIT);
+        consoleCommands.put("exitnosave", Command.HARDEXIT);
+        consoleCommands.put("help", Command.HELP);
+        consoleCommands.put("commands", Command.COMMANDS);
     }
 
     @Override
-    public void runOnBadCommand(ArrayList<String> originalArgs) {
-        run(Command.BAD_COMMAND, originalArgs);
+    public void runOnInvalidCommand(ArrayList<String> originalArgs) {
+        processCommand(Command.BAD_COMMAND, originalArgs);
     }
 
     @Override
-    public void run(Command cmd, ArrayList<String> args) {
+    public void processCommand(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             case CREATE:
                 CreateConsole createConsole = new CreateConsole();
@@ -48,33 +49,31 @@ public class Console extends AbstractConsole {
                 reportConsole.printPrompt(PromptMessage.REPORT, true);
                 return;
             case EXIT:
-                try {
-                    ConsoleService.saveAllInventoryData();
-                    ConsoleService.saveAllInventoryDataAsJSON();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.exit(0);
+                ConsoleService.saveAllInventoryDataAsJSON();
+                printPrompt(PromptMessage.GOODBYE, false);
                 return;
             case HARDEXIT:
-                System.exit(0);
+                printPrompt(PromptMessage.GOODBYE, false);
                 return;
             case BAD_COMMAND:
-                System.out.println("Bad command! Please enter a valid command, or enter 'Help' to view a list of all commands.");
+                System.out.println("Bad command! Please enter a valid command, or enter 'Commands' to view a formatted list of all commands.");
                 printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
                 printHelpCommand();
                 printPrompt(PromptMessage.STANDARD, true);
                 return;
+            case COMMANDS:
+                printPrompt(PromptMessage.COMMANDS, true);
+                return;
             default:
-                run(Command.BAD_COMMAND, null);
+                processCommand(Command.BAD_COMMAND, null);
                 return;
         }
     }
 
     private void printReadList() {
-        for (String s : AbstractConsole.getListOfProducts()) {
+        for (String s : Utilities.getListOfProducts()) {
             System.out.println(s);
         }
     }

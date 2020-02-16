@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class BoardGameService {
     private ArrayList<BoardGame> inventory = new ArrayList<>();
@@ -27,29 +26,18 @@ public class BoardGameService {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
-            Logger.getGlobal().info("Loaded Inventory(BG) from JSON successfully.");
-        } catch (JsonParseException e) {
-            //e.printStackTrace();
-        } catch (JsonMappingException e) {
-            //e.printStackTrace();
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
+            Inventory.loadRollBackBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
+        } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
     }
 
+    @Deprecated
     public static void loadData(){
-        // (1)
         String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";
-
-        // (2)
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
-                // split line with comma
                 String[] game = line.split(csvSplitBy);
-
-                // (4)
                 int id = -1;
                 int playtime = 60;
                 String name = "";
@@ -63,19 +51,14 @@ public class BoardGameService {
                     name = game[3];
                     ageMin = Integer.parseInt(game[4]);
                     ageMax = Integer.parseInt(game[5]);
-                } catch (NumberFormatException|IndexOutOfBoundsException e) {
-                    //e.printStackTrace();
-                }
+                } catch (NumberFormatException|IndexOutOfBoundsException e) {}
 
                 // (5)
                 if (!name.equals("") && type.equals("BOARD")) {
                     Inventory.add(new BoardGame(name, "", ageMin, ageMax, playtime, id));
                 }
             }
-
-        } catch (IOException|NumberFormatException e) {
-           // e.printStackTrace();
-        }
+        } catch (IOException|NumberFormatException e) {}
     }
 
     //read

@@ -7,19 +7,19 @@ import java.util.ArrayList;
 public class DeleteConsole extends AbstractConsole {
 
     @Override
-    protected void setupCommands() {
-        commandMap.put("remove", Command.REMOVE);
-        commandMap.put("return", Command.RETURN);
-        commandMap.put("help", Command.HELP);
+    protected void initializeCommands() {
+        consoleCommands.put("remove", Command.REMOVE);
+        consoleCommands.put("return", Command.RETURN);
+        consoleCommands.put("help", Command.HELP);
     }
 
     @Override
-    public void runOnBadCommand(ArrayList<String> originalArgs)   {
-        run(Command.RETURN, originalArgs);
+    public void runOnInvalidCommand(ArrayList<String> originalArgs)   {
+        processCommand(Command.RETURN, originalArgs);
     }
 
     @Override
-    public void run(Command cmd, ArrayList<String> args) {
+    public void processCommand(Command cmd, ArrayList<String> args) {
         switch (cmd) {
             //TODO
             // Improve this by using runAdd() logic from UpdateConsole
@@ -33,7 +33,7 @@ public class DeleteConsole extends AbstractConsole {
                         Inventory.remove(num);
                     } catch (NumberFormatException e) {}
                 }
-                printPrompt(PromptMessage.REMOVE, true);
+                printPrompt(PromptMessage.DELETE, true);
                 return;
             case RETURN:
                 Console console = new Console();
