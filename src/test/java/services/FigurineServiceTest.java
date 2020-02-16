@@ -12,9 +12,6 @@ class FigurineServiceTest {
         // (1)
         String expectedName = "Gandalf";
         double expectedPrice = 80.00;
-        int expectedHeight = 1;
-        int expectedWeight = 2;
-        int expectedWidth = 3;
         String expectedColor = "White";
         int expectedID = 55;
 
