@@ -1,12 +1,18 @@
 package services;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Figurine;
 import models.Inventory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class FigurineService {
     private ArrayList<Figurine> inventory = new ArrayList<>();
@@ -15,6 +21,20 @@ public class FigurineService {
         Figurine createdGame = new Figurine(name, color, id);
         inventory.add(createdGame);
         return createdGame;
+    }
+
+    public static void loadJSONData() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Inventory.loadProductsFig((objectMapper.readValue(new File("/Users/abennett/Desktop/Inventory.json"), new TypeReference<ArrayList<Figurine>>(){})));
+            Logger.getGlobal().info("Loaded Inventory(FIG) from JSON successfully.");
+        } catch (JsonParseException e) {
+            //e.printStackTrace();
+        } catch (JsonMappingException e) {
+            //e.printStackTrace();
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
     }
 
     public static void loadData(){

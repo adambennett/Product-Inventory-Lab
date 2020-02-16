@@ -13,11 +13,52 @@ public class Inventory {
         return allProducts;
     }
 
+    public static ArrayList<Figurine> getFigurines() {
+        ArrayList<Figurine> toRet = new ArrayList<>();
+        for (Product p : allProducts) {
+            if (p instanceof Figurine) {
+                toRet.add((Figurine) p);
+            }
+        }
+        return toRet;
+    }
+
+    public static ArrayList<BoardGame> getBoardGames() {
+        ArrayList<BoardGame> toRet = new ArrayList<>();
+        for (Product p : allProducts) {
+            if (p instanceof BoardGame) {
+                toRet.add((BoardGame) p);
+            }
+        }
+        return toRet;
+    }
+
+    public static void loadProducts(ArrayList<Product> products) {
+        allProducts = products;
+    }
+
+    public static void loadProductsFig(ArrayList<Figurine> figures) {
+        for (Figurine f : figures) {
+            add(f);
+        }
+    }
+
+    public static void loadProductsBG(ArrayList<BoardGame> games) {
+        for (BoardGame g : games) {
+            add(g);
+        }
+    }
+
     public static void clear() {
         allProducts.clear();
     }
 
     public static void add(Product p) {
+        int loopMax = 100;
+        while (isProduct(p.getId()) && loopMax > 0) {
+            p.setId(Product.generateID());
+            loopMax--;
+        }
         allProducts.add(p);
     }
 
@@ -38,9 +79,18 @@ public class Inventory {
         }
     }
 
-    public static Boolean isProductID(int id) {
+    public static Boolean isProduct(int id) {
         for (Product p : allProducts) {
             if (p.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean isProduct(String name) {
+        for (Product p : allProducts) {
+            if (p.getName().toLowerCase().equals(name.toLowerCase())) {
                 return true;
             }
         }
@@ -94,7 +144,7 @@ public class Inventory {
         return amt;
     }
 
-    public static void increaseAmtOfProduct(int id, int amt) {
+    public static void increaseAmtOfProduct(int id, int amt, boolean copyExact) {
         ArrayList<Product> toAdd = new ArrayList<>();
         for (Product p : allProducts) {
             if (p.getId() == id) {
@@ -108,10 +158,10 @@ public class Inventory {
             }
         }
 
-        refreshInventory(amt, toAdd);
+        refreshInventory(amt, toAdd, copyExact);
     }
 
-    public static void increaseAmtOfProduct(String prodName, int amt) {
+    public static void increaseAmtOfProduct(String prodName, int amt, boolean copyExact) {
         ArrayList<Product> toAdd = new ArrayList<>();
         for (Product p : allProducts) {
             if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
@@ -125,16 +175,16 @@ public class Inventory {
             }
         }
 
-        refreshInventory(amt, toAdd);
+        refreshInventory(amt, toAdd, copyExact);
     }
 
-    private static void refreshInventory(int amt, ArrayList<Product> toAdd) {
+    private static void refreshInventory(int amt, ArrayList<Product> toAdd, boolean copyExact) {
         for (Product p : toAdd) {
             for (int i = 0; i < amt; i++) {
                 if (p instanceof BoardGame) {
                     allProducts.add(p.copyAsBoardGame());
                 } else if (p instanceof Figurine) {
-                    allProducts.add(p.copyAsFigurine());
+                    allProducts.add(p.copyAsFigurine(copyExact));
                 }
             }
         }
@@ -142,7 +192,9 @@ public class Inventory {
 
     public static void loadData() {
         BoardGameService.loadData();
+        BoardGameService.loadJSONData();
         FigurineService.loadData();
+        FigurineService.loadJSONData();
     }
 
     static {

@@ -21,6 +21,11 @@ public class DeleteConsole extends AbstractConsole {
     @Override
     public void run(Command cmd, ArrayList<String> args) {
         switch (cmd) {
+            //TODO
+            // Improve this by using runAdd() logic from UpdateConsole
+            // Right now you can only remove by ID
+            // Should be able to remove by name(s) too
+            // Should be able to remove a given amount of an item by ID or name, and if no amt is given remove all by default
             case REMOVE:
                 for (String s : args) {
                     try {

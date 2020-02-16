@@ -1,12 +1,18 @@
 package services;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.BoardGame;
 import models.Inventory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class BoardGameService {
     private ArrayList<BoardGame> inventory = new ArrayList<>();
@@ -15,6 +21,20 @@ public class BoardGameService {
         BoardGame createdGame = new BoardGame(gameName, manufacturer, ageMinimum, ageMax, avgPlayingTime, id);
         inventory.add(createdGame);
         return createdGame;
+    }
+
+    public static void loadJSONData() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/Inventory.json"), new TypeReference<ArrayList<BoardGame>>(){}));
+            Logger.getGlobal().info("Loaded Inventory(BG) from JSON successfully.");
+        } catch (JsonParseException e) {
+            //e.printStackTrace();
+        } catch (JsonMappingException e) {
+            //e.printStackTrace();
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
     }
 
     public static void loadData(){

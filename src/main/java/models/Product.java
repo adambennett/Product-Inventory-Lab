@@ -25,9 +25,18 @@ public class Product {
     }
 
     public Figurine copyAsFigurine() {
+        return copyAsFigurine(false);
+    }
+
+    public Figurine copyAsFigurine(boolean copyExact) {
         if (this instanceof Figurine) {
-            Figurine figure = new Figurine(this.getName(), ((Figurine) this).getColor(), generateID());
-            return figure;
+            if (copyExact) {
+                Figurine figure = new Figurine(this.getName(), ((Figurine)this).getColor(), generateID());
+                return figure;
+            } else {
+                Figurine figure = new Figurine(this.getName(), Figurine.getRandomColor(), generateID());
+                return figure;
+            }
         } else {
             return null;
         }

@@ -1,9 +1,5 @@
 package io;
 
-import models.BoardGame;
-import models.Figurine;
-import models.Inventory;
-import models.Product;
 import services.ConsoleService;
 
 import java.io.IOException;
@@ -54,6 +50,7 @@ public class Console extends AbstractConsole {
             case EXIT:
                 try {
                     ConsoleService.saveAllInventoryData();
+                    ConsoleService.saveAllInventoryDataAsJSON();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

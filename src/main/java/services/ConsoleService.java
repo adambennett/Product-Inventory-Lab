@@ -1,5 +1,8 @@
 package services;
 
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
 import models.BoardGame;
 import models.Figurine;
@@ -7,11 +10,13 @@ import models.Inventory;
 import models.Product;
 import utils.CSVUtils;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class ConsoleService {
     public static Float getFloatInput(String prompt) {
@@ -62,6 +67,18 @@ public class ConsoleService {
 
     public static void prln(String print) {
         System.out.println(print);
+    }
+
+    public static void saveAllInventoryDataAsJSON() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(new File("/Users/abennett/Desktop/Inventory.json"), Inventory.getFigurines());
+            writer.writeValue(new File("/Users/abennett/Desktop/Inventory.json"), Inventory.getBoardGames());
+            Logger.getGlobal().info("Saved Inventory JSON data successfully.");
+        }  catch (IOException e) {
+            Logger.getGlobal().info("IOException!! Did NOT save Inventory JSON data!");
+        }
     }
 
     public static void saveAllInventoryData() throws IOException {

@@ -34,7 +34,8 @@ public abstract class AbstractConsole
         SUB,
         SET,
         REMOVE,
-        HARDEXIT
+        HARDEXIT,
+        ROLLBACK
     }
 
     public enum PromptMessage {

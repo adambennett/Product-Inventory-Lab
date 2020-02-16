@@ -32,7 +32,7 @@ public class Figurine extends Product {
         this.color = color;
     }
 
-    private static String getRandomColor() {
+    public static String getRandomColor() {
         String color = "White";
         int roll = ThreadLocalRandom.current().nextInt(1, 11);
         switch (roll) {
