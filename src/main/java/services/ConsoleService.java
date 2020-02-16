@@ -91,4 +91,10 @@ public class ConsoleService {
         writer.flush();
         writer.close();
     }
+
+    public static String capFirstLetter(String s) {
+        String color = s.toLowerCase();
+        color = color.substring(0, 1).toUpperCase() + color.substring(1, color.length());
+        return color;
+    }
 }

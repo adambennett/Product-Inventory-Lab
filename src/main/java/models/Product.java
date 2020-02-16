@@ -26,7 +26,7 @@ public class Product {
 
     public Figurine copyAsFigurine() {
         if (this instanceof Figurine) {
-            Figurine figure = new Figurine(this.getName(), ((Figurine) this).getColor(), this.getId());
+            Figurine figure = new Figurine(this.getName(), ((Figurine) this).getColor(), generateID());
             return figure;
         } else {
             return null;

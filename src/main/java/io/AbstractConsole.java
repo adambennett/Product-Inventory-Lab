@@ -308,7 +308,13 @@ public abstract class AbstractConsole
             String prefix = "***";
             String suffix = "***\n";
             String space = " ";
-            String productInfo =  "[" + p.getId() + "]: " + p.getName();
+            String productInfo =  "[" + p.getId() + "]: " + ConsoleService.capFirstLetter(p.getName());
+
+            if (p instanceof Figurine) {
+                String color = ConsoleService.capFirstLetter(((Figurine) p).getColor());
+                productInfo += " (" +  color + ")";
+            }
+
             int reductionCounter = productInfo.length();
             while (productInfo.length() + suffix.length() + prefix.length() > lengthToCheck) {
                 productInfo = productInfo.substring(0, reductionCounter);
@@ -335,14 +341,15 @@ public abstract class AbstractConsole
     public static ArrayList<String> getListOfProducts() {
         ArrayList<String> uniques = new ArrayList<>();
         for (Product p : Inventory.getProducts()) {
-            String s = "[" + Inventory.amtOfProductByName(p) + "]: " + p.getName();
+            String s = "[" + Inventory.amtOfProductByName(p) + "]: " + ConsoleService.capFirstLetter(p.getName());
             if (p instanceof BoardGame) {
                 BoardGame bg = (BoardGame)p;
                 s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
             }
             else if (p instanceof Figurine) {
                 Figurine fig = (Figurine)p;
-                s += " (" + fig.getColor() + ")";
+                String color = ConsoleService.capFirstLetter(fig.getColor());
+                s += " (" + color + ")";
             }
             if (!uniques.contains(s)) {
                 uniques.add(s);

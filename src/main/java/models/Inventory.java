@@ -34,6 +34,15 @@ public class Inventory {
         }
     }
 
+    public static Boolean isProductID(int id) {
+        for (Product p : allProducts) {
+            if (p.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Integer size() {
         return allProducts.size();
     }
@@ -67,7 +76,14 @@ public class Inventory {
     public static Integer amtOfProductByName(Product p) {
         int amt = 0;
         for (Product prod : allProducts) {
-            if (prod.getName().equals(p.getName())) {
+            if (p instanceof Figurine && prod instanceof Figurine) {
+                Figurine fig = (Figurine)p;
+                Figurine figB = (Figurine)prod;
+                if (fig.getColor().toLowerCase().equals(figB.getColor().toLowerCase()) && fig.getName().toLowerCase().equals(figB.getName().toLowerCase())) {
+                    amt++;
+                }
+            }
+            else if (prod.getName().toLowerCase().equals(p.getName().toLowerCase())) {
                 amt++;
             }
         }
@@ -94,7 +110,7 @@ public class Inventory {
     public static void increaseAmtOfProduct(String prodName, int amt) {
         ArrayList<Product> toAdd = new ArrayList<>();
         for (Product p : allProducts) {
-            if (p.getName().equals(prodName)) {
+            if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
                 if (p instanceof Figurine) {
                     toAdd.add(p);
                     break;
