@@ -56,6 +56,21 @@ public class ConsoleService {
         return userInput;
     }
 
+    public static void saveAllInventoryDataAsJSON(String figurineFileName, String boardGameFileName) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            String fullFigurineFile = "/Users/abennett/Desktop/" + figurineFileName + ".json";
+            String fullBoardGameFile = "/Users/abennett/Desktop/" + boardGameFileName + ".json";
+            if (!figurineFileName.equals("")) {
+                writer.writeValue(new File(fullFigurineFile), Inventory.getFigurines());
+            }
+            if (!boardGameFileName.equals("")) {
+                writer.writeValue(new File(fullBoardGameFile), Inventory.getBoardGames());
+            }
+        }  catch (IOException e) {}
+    }
+
     public static void saveAllInventoryDataAsJSON() {
         try {
             ObjectMapper mapper = new ObjectMapper();

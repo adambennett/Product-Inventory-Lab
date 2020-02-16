@@ -1,9 +1,7 @@
 package io;
 
 import models.Inventory;
-import services.BoardGameService;
 import services.ConsoleService;
-import services.FigurineService;
 import utils.Utilities;
 
 import java.util.ArrayList;
@@ -23,7 +21,8 @@ public class Console extends AbstractConsole {
         consoleCommands.put("commands", Command.COMMANDS);
         consoleCommands.put("save", Command.SAVEJSON);
         consoleCommands.put("savecsv", Command.SAVECSV);
-        consoleCommands.put("load", Command.LOADCSV);
+        consoleCommands.put("loadcsv", Command.LOADCSV);
+        consoleCommands.put("load", Command.LOADJSON);
 
     }
 
@@ -81,11 +80,22 @@ public class Console extends AbstractConsole {
                 ConsoleService.saveAllInventoryData();
                 return;
             case SAVEJSON:
-                ConsoleService.saveAllInventoryDataAsJSON();
+                if (args.size() > 1) {
+                    ConsoleService.saveAllInventoryDataAsJSON(args.get(1), args.get(0));
+                } else {
+                    ConsoleService.saveAllInventoryDataAsJSON();
+                }
+                printPrompt(PromptMessage.STANDARD, true);
                 return;
             case LOADCSV:
-                BoardGameService.loadData();
-                FigurineService.loadData();
+                Inventory.loadData();
+                return;
+            case LOADJSON:
+                if (args.size() > 1) {
+                    Inventory.loadData(args.get(1), args.get(0));
+                } else {
+                    Inventory.loadData("BoardGames", "Figurines");
+                }
                 return;
             default:
                 processCommand(Command.BAD_COMMAND, null);

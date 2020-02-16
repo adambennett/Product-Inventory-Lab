@@ -154,7 +154,8 @@ public abstract class AbstractConsole
         COMMANDS,
         LOADCSV,
         SAVEJSON,
-        SAVECSV
+        SAVECSV,
+        LOADJSON
     }
 
     public enum PromptMessage {

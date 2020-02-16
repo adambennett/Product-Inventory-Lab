@@ -22,6 +22,15 @@ public class FigurineService {
         return createdGame;
     }
 
+    public static void loadJSONData(String fileName) {
+        Inventory.clear();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fullFile = "/Users/abennett/Desktop/" + fileName + ".json";
+        try {
+            Inventory.loadProductsFig((objectMapper.readValue(new File(fullFile), new TypeReference<ArrayList<Figurine>>(){})));
+        } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
+    }
+
     public static void loadJSONData() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {

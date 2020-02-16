@@ -211,13 +211,15 @@ public class MenuStrings {
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Help       | Print list of commands available in current menu **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Load       | Resets the inventory from CSV                    **\n" +
+                "** Load       | Loads the given JSON file (load BG FIG)          **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** LoadCSV    | Resets the inventory from CSV                    **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Read       | Print list of products, grouped by quantity      **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Report     | Move to Report Menu                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Save       | Save the inventory data to JSON                  **\n" +
+                "** Save       | Save to given JSON file (save bgFile figFile)    **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** SaveCSV    | Save the inventory data to CSV                   **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +

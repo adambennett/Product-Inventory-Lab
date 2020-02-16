@@ -259,6 +259,11 @@ public class Inventory {
         }
     }
 
+    public static void loadData(String boardFile, String figureFile) {
+        BoardGameService.loadJSONData(boardFile);
+        FigurineService.loadJSONData(figureFile);
+    }
+
     public static void loadData() {
         BoardGameService.loadJSONData();
         FigurineService.loadJSONData();

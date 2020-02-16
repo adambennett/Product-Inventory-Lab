@@ -22,6 +22,15 @@ public class BoardGameService {
         return createdGame;
     }
 
+    public static void loadJSONData(String fileName) {
+        Inventory.clear();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fullFile = "/Users/abennett/Desktop/" + fileName + ".json";
+        try {
+            Inventory.loadProductsBG(objectMapper.readValue(new File(fullFile), new TypeReference<ArrayList<BoardGame>>(){}));
+        } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
+    }
+
     public static void loadJSONData() {
         Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
