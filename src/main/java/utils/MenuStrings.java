@@ -54,7 +54,7 @@ public class MenuStrings {
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Exit       | Save data to JSON and quit program               **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Exitnosave | Quit without saving                              **\n" +
+                "** ExitNoSave | Quit without saving                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Figure     | Create a Figurine and add to inventory           **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
@@ -63,6 +63,8 @@ public class MenuStrings {
                 "** Help       | Print list of commands available in current menu **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** List       | Print list of individual products                **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Load       | Resets the inventory from CSV                    **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Read       | Print list of products, grouped by quantity      **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
@@ -73,6 +75,10 @@ public class MenuStrings {
                 "** Return     | Returns you to the main menu                     **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Rollback   | Resets the inventory from JSON                   **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Save       | Save the inventory data to JSON                  **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** SaveCSV    | Save the inventory data to CSV                   **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Set        | Set the attributes of products in inventory      **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +

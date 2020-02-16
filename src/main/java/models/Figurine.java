@@ -34,7 +34,7 @@ public class Figurine extends Product {
 
     public static String getRandomColor() {
         String color = "White";
-        int roll = ThreadLocalRandom.current().nextInt(1, 11);
+        int roll = ThreadLocalRandom.current().nextInt(1, 12);
         switch (roll) {
             case 1:
                 color = "Yellow";
@@ -68,6 +68,9 @@ public class Figurine extends Product {
                 return color;
             case 11:
                 color = "Magenta";
+                return color;
+            case 12:
+                color = "Grey";
                 return color;
             default:
                 return color;

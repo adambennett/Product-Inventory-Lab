@@ -75,6 +75,17 @@ public class Inventory {
         currentInventory.add(p);
     }
 
+    public static void addAll(ArrayList<Product> prods) {
+        int loopMax = 5;
+        for (Product p : prods) {
+            while (isProduct(p.getId()) && loopMax > 0) {
+                p.setId(Product.generateID());
+                loopMax--;
+            }
+            currentInventory.add(p);
+        }
+    }
+
     public static void addRollback(Product p) {
         int loopMax = 100;
         while (isProduct(p.getId()) && loopMax > 0) {

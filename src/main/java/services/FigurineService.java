@@ -30,7 +30,6 @@ public class FigurineService {
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
     }
 
-    @Deprecated
     public static void loadData(){
         // (1)
         String csvFile = "/Users/abennett/Desktop/Inventory.csv";

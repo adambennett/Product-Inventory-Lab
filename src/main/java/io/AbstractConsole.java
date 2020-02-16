@@ -150,7 +150,10 @@ public abstract class AbstractConsole
         REMOVE,
         HARDEXIT,
         ROLLBACK,
-        COMMANDS
+        COMMANDS,
+        LOADCSV,
+        SAVEJSON,
+        SAVECSV
     }
 
     public enum PromptMessage {

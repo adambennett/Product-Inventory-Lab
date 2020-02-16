@@ -23,6 +23,7 @@ public class BoardGameService {
     }
 
     public static void loadJSONData() {
+        Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
@@ -30,8 +31,8 @@ public class BoardGameService {
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
     }
 
-    @Deprecated
     public static void loadData(){
+        Inventory.clear();
         String csvFile = "/Users/abennett/Desktop/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";

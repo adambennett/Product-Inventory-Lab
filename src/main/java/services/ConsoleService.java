@@ -65,33 +65,34 @@ public class ConsoleService {
         }  catch (IOException e) {}
     }
 
-    @Deprecated
-    public static void saveAllInventoryData() throws IOException {
-        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
-        FileWriter writer = new FileWriter(csvFile); //(1)
-        for (Product s : Inventory.getProducts()) {
-            List<String> list = new ArrayList<>();
-            if (s instanceof BoardGame) {
-                BoardGame ga = (BoardGame)s;
-                list.add("BOARD");
-                list.add("" + ga.getId());
-                list.add("" + ga.getAvgPlayingTime());
-                list.add(s.getName());
-                list.add("" + ga.getAgeMinimum());
-                list.add("" + ga.getAgeMax());
-            } else if (s instanceof Figurine) {
-                Figurine fig = (Figurine)s;
-                list.add("FIG");
-                list.add("" + fig.getId());
-                list.add(fig.getColor());
-                list.add(s.getName());
+    public static void saveAllInventoryData() {
+        try {
+            String csvFile = "/Users/abennett/Desktop/Inventory.csv";
+            FileWriter writer = new FileWriter(csvFile); //(1)
+            for (Product s : Inventory.getProducts()) {
+                List<String> list = new ArrayList<>();
+                if (s instanceof BoardGame) {
+                    BoardGame ga = (BoardGame)s;
+                    list.add("BOARD");
+                    list.add("" + ga.getId());
+                    list.add("" + ga.getAvgPlayingTime());
+                    list.add(s.getName());
+                    list.add("" + ga.getAgeMinimum());
+                    list.add("" + ga.getAgeMax());
+                } else if (s instanceof Figurine) {
+                    Figurine fig = (Figurine)s;
+                    list.add("FIG");
+                    list.add("" + fig.getId());
+                    list.add(fig.getColor());
+                    list.add(s.getName());
+                }
+                CSVUtils.writeLine(writer, list);  // (4)
             }
-            CSVUtils.writeLine(writer, list);  // (4)
-        }
 
-        // (5)
-        writer.flush();
-        writer.close();
+            // (5)
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {}
     }
 
 }

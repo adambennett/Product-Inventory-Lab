@@ -1,6 +1,9 @@
 package io;
 
+import models.Inventory;
+import services.BoardGameService;
 import services.ConsoleService;
+import services.FigurineService;
 import utils.Utilities;
 
 import java.util.ArrayList;
@@ -18,6 +21,10 @@ public class Console extends AbstractConsole {
         consoleCommands.put("exitnosave", Command.HARDEXIT);
         consoleCommands.put("help", Command.HELP);
         consoleCommands.put("commands", Command.COMMANDS);
+        consoleCommands.put("save", Command.SAVEJSON);
+        consoleCommands.put("savecsv", Command.SAVECSV);
+        consoleCommands.put("loadcsv", Command.LOADCSV);
+
     }
 
     @Override
@@ -30,7 +37,11 @@ public class Console extends AbstractConsole {
         switch (cmd) {
             case CREATE:
                 CreateConsole createConsole = new CreateConsole();
-                createConsole.printPrompt(PromptMessage.CREATE, true);
+                if (isCreatingRandom(args)) {
+                    handleRandomCreate(args, createConsole);
+                } else {
+                    createConsole.printPrompt(PromptMessage.CREATE, true);
+                }
                 return;
             case READ:
                 printReadList();
@@ -66,6 +77,16 @@ public class Console extends AbstractConsole {
             case COMMANDS:
                 printPrompt(PromptMessage.COMMANDS, true);
                 return;
+            case SAVECSV:
+                ConsoleService.saveAllInventoryData();
+                return;
+            case SAVEJSON:
+                ConsoleService.saveAllInventoryDataAsJSON();
+                return;
+            case LOADCSV:
+                BoardGameService.loadData();
+                FigurineService.loadData();
+                return;
             default:
                 processCommand(Command.BAD_COMMAND, null);
                 return;
@@ -76,6 +97,37 @@ public class Console extends AbstractConsole {
         for (String s : Utilities.getListOfProducts()) {
             System.out.println(s);
         }
+    }
+
+    private void handleRandomCreate(ArrayList<String> args, CreateConsole createConsole) {
+        createRandomProducts(args);
+        if (Inventory.size() < 100) {
+            createConsole.printPrompt(PromptMessage.CREATE_WITH_PROD, true);
+        } else {
+            createConsole.printPrompt(PromptMessage.CREATE, true);
+        }
+    }
+
+    private Boolean isCreatingRandom(ArrayList<String> args) {
+        if (args.size() > 0 && args.get(0).toLowerCase().equals("random")) {
+            return true;
+        }
+        return false;
+    }
+
+    private void createRandomProducts(ArrayList<String> args) {
+        int amt = 0;
+        if (args.size() > 1) {
+            for (int i = 1; i < args.size(); i++) {
+                try {
+                    Integer more = Integer.parseInt(args.get(1));
+                    amt += more;
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+        if (amt < 1) { amt = 1; }
+        Utilities.addRandomProductToInventory(amt);
     }
 
 
