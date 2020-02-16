@@ -26,7 +26,7 @@ public class BoardGameService {
     public static void loadJSONData() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/Inventory.json"), new TypeReference<ArrayList<BoardGame>>(){}));
+            Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
             Logger.getGlobal().info("Loaded Inventory(BG) from JSON successfully.");
         } catch (JsonParseException e) {
             //e.printStackTrace();

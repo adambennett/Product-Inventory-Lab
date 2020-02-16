@@ -26,7 +26,7 @@ public class FigurineService {
     public static void loadJSONData() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Inventory.loadProductsFig((objectMapper.readValue(new File("/Users/abennett/Desktop/Inventory.json"), new TypeReference<ArrayList<Figurine>>(){})));
+            Inventory.loadProductsFig((objectMapper.readValue(new File("/Users/abennett/Desktop/Figurines.json"), new TypeReference<ArrayList<Figurine>>(){})));
             Logger.getGlobal().info("Loaded Inventory(FIG) from JSON successfully.");
         } catch (JsonParseException e) {
             //e.printStackTrace();

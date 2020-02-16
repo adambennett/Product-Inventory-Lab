@@ -73,8 +73,8 @@ public class ConsoleService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-            writer.writeValue(new File("/Users/abennett/Desktop/Inventory.json"), Inventory.getFigurines());
-            writer.writeValue(new File("/Users/abennett/Desktop/Inventory.json"), Inventory.getBoardGames());
+            writer.writeValue(new File("/Users/abennett/Desktop/Figurines.json"), Inventory.getFigurines());
+            writer.writeValue(new File("/Users/abennett/Desktop/BoardGames.json"), Inventory.getBoardGames());
             Logger.getGlobal().info("Saved Inventory JSON data successfully.");
         }  catch (IOException e) {
             Logger.getGlobal().info("IOException!! Did NOT save Inventory JSON data!");
