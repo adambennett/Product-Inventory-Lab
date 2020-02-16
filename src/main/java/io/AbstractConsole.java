@@ -5,7 +5,6 @@ import utils.MenuStrings;
 import utils.Utilities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,15 +47,17 @@ public abstract class AbstractConsole
         findAndProcessCommand(argus);
     }
 
-    protected void printHelpCommand() {
-        System.out.println("Printing a list of all available commands in this menu: ");
-        ArrayList<String> uniques = new ArrayList<>();
-        for (Map.Entry<String, Command> i : this.consoleCommands.entrySet()) {
-            uniques.add(i.getKey().toUpperCase());
-        }
-        Collections.sort(uniques);
-        for (String s : uniques) {
-            System.out.println(s);
+    protected void printHelpCommand(AbstractConsole consoleType) {
+        if (consoleType instanceof Console) {
+            System.out.println(MenuStrings.mainMenuCommands);
+        } else if (consoleType instanceof CreateConsole) {
+            System.out.println(MenuStrings.createMenuCommands);
+        } else if (consoleType instanceof DeleteConsole) {
+            System.out.println(MenuStrings.deleteMenuCommands);
+        } else if (consoleType instanceof ReportConsole) {
+            System.out.println(MenuStrings.reportMenuCommands);
+        } else if (consoleType instanceof UpdateConsole) {
+            System.out.println(MenuStrings.updateMenuCommands);
         }
     }
 
@@ -171,7 +172,8 @@ public abstract class AbstractConsole
         SET,
         GOODBYE,
         CREATE_WITH_PROD,
-        COMMANDS
+        COMMANDS,
+        BLANK
     }
 
 }

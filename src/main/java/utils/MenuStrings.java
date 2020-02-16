@@ -18,6 +18,11 @@ public class MenuStrings {
     public static String modify;
     public static String sub;
     public static String set;
+    public static String mainMenuCommands;
+    public static String createMenuCommands;
+    public static String updateMenuCommands;
+    public static String deleteMenuCommands;
+    public static String reportMenuCommands;
 
     public static void loadStrings() {
         String allProducts = "";
@@ -40,17 +45,15 @@ public class MenuStrings {
 
         commands = "" +
                 "*******************************************************************\n" +
-                "**             ZipCo Inventory Manager - Main Menu               **\n" +
-                "**                                                               **\n" +
                 "**                          Commands                             **\n" +
                 "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Add        | Increase the amount of products in inventory     **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Commands   | Print formatted list of all commands in program  **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Create     | Add products to inventory                        **\n" +
+                "** Create     | Move to Create Menu                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Delete     | Remove products from inventory                   **\n" +
+                "** Delete     | Move to Delete Menu                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Exit       | Save data to JSON and quit program               **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
@@ -68,11 +71,9 @@ public class MenuStrings {
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Read       | Print list of products, grouped by quantity      **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Remove     | Delete products from inventory                   **\n" +
+                "** Report     | Move to Report Menu                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Report     | Generate reports about products                  **\n" +
-                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Return     | Returns you to the main menu                     **\n" +
+                "** Return     | Return to Main Menu                              **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Rollback   | Resets the inventory from JSON                   **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
@@ -84,7 +85,7 @@ public class MenuStrings {
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "** Sub        | Decrease the amount of products in inventory     **\n" +
                 "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
-                "** Update     | Change product attributes                        **\n" +
+                "** Update     | Modify inventory                                 **\n" +
                 "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
                 "**                                                               **\n" +
                 "*******************************************************************\n";
@@ -150,9 +151,11 @@ public class MenuStrings {
                 "***************************************************************\n";
 
         report = "" +
-                "**************************************************\n" +
-                "*** ZipCo Inventory Manager - Enter Command(R) ***\n" +
-                "**************************************************\n";
+                "****************************************************************\n" +
+                "***          ZipCo Inventory Manager - Report Menu           ***\n" +
+                "***                                                          ***\n" +
+                "***      Enter 'Help' for a List of Reporting Commands       ***\n" +
+                "****************************************************************\n";
 
         forLengthChecks = "***************************************************************";
         allProducts = Utilities.getStringOfProducts(forLengthChecks.length());
@@ -179,9 +182,111 @@ public class MenuStrings {
                 "***           Enter 'Help' for a List of Commands           ***\n" +
                 "***************************************************************\n";
 
+        forLengthChecks = "***************************************************************";
+        allProducts = Utilities.getStringOfProducts(forLengthChecks.length());
+        sub = "" +
+                "***************************************************************\n" +
+                "***           ZipCo Inventory Manager - Sub Menu            ***\n" +
+                "***                                                         ***\n" +
+                "***                                                         ***\n" +
+                allProducts +
+                "***                                                         ***\n" +
+                "***           Enter 'Help' for a List of Commands           ***\n" +
+                "***  Enter 'Sub' and Product ID to Decrease Quantity by 1   ***\n" +
+                "***************************************************************\n";
+
+        mainMenuCommands = "" +
+                "*******************************************************************\n" +
+                "**                      Main Menu Commands                       **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Commands   | Print formatted list of all commands in program  **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Create     | Move to Create Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Delete     | Move to Delete Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Exit       | Save data to JSON and quit program               **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** ExitNoSave | Quit without saving                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Help       | Print list of commands available in current menu **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Load       | Resets the inventory from CSV                    **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Read       | Print list of products, grouped by quantity      **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Report     | Move to Report Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Save       | Save the inventory data to JSON                  **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** SaveCSV    | Save the inventory data to CSV                   **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Update     | Modify inventory                                 **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "*******************************************************************\n";
+
+        createMenuCommands = "" +
+                "*******************************************************************\n" +
+                "**                     Create Menu Commands                      **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Figure     | Create a Figurine and add to inventory           **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Game       | Create a Board Game and add to inventory         **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Help       | Print list of commands available in current menu **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Return     | Return to Main Menu                              **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "*******************************************************************\n";
+
+        deleteMenuCommands = "" +
+                "*******************************************************************\n" +
+                "**                     Delete Menu Commands                      **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Help       | Print list of commands available in current menu **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Return     | Return to Main Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Sub        | Decrease the amount of products in inventory     **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "*******************************************************************\n";
+
+        reportMenuCommands = "" +
+                "*******************************************************************\n" +
+                "**                     Report Menu Commands                      **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Help       | Print list of commands available in current menu **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** List       | Print list of individual products                **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Read       | Print list of products, grouped by quantity      **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Report     | Move to Report Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Return     | Return to Main Menu                              **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "*******************************************************************\n";
+
+        updateMenuCommands = "" +
+                "*******************************************************************\n" +
+                "**                     Update Menu Commands                      **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Add        | Increase the amount of products in inventory     **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Help       | Print list of commands available in current menu **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** List       | Print list of individual products                **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Return     | Return to Main Menu                              **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Set        | Set the attributes of products in inventory      **\n" +
+                "** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "** Sub        | Decrease the amount of products in inventory     **\n" +
+                "**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**\n" +
+                "*******************************************************************\n";
+
         modify = "";
         set = "";
-        sub = "";
     }
 
     public static String getStringFromPromptType(AbstractConsole.PromptMessage msg) {
@@ -216,6 +321,8 @@ public class MenuStrings {
                 return createWithProducts;
             case COMMANDS:
                 return commands;
+            case BLANK:
+                return "";
             default:
                 return standard;
         }

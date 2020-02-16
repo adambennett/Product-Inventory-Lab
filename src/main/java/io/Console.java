@@ -23,7 +23,7 @@ public class Console extends AbstractConsole {
         consoleCommands.put("commands", Command.COMMANDS);
         consoleCommands.put("save", Command.SAVEJSON);
         consoleCommands.put("savecsv", Command.SAVECSV);
-        consoleCommands.put("loadcsv", Command.LOADCSV);
+        consoleCommands.put("load", Command.LOADCSV);
 
     }
 
@@ -71,8 +71,8 @@ public class Console extends AbstractConsole {
                 printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
-                printHelpCommand();
-                printPrompt(PromptMessage.STANDARD, true);
+                printHelpCommand(this);
+                printPrompt(PromptMessage.BLANK, true);
                 return;
             case COMMANDS:
                 printPrompt(PromptMessage.COMMANDS, true);
@@ -101,7 +101,7 @@ public class Console extends AbstractConsole {
 
     private void handleRandomCreate(ArrayList<String> args, CreateConsole createConsole) {
         createRandomProducts(args);
-        if (Inventory.size() < 100) {
+        if (Inventory.size() < 101) {
             createConsole.printPrompt(PromptMessage.CREATE_WITH_PROD, true);
         } else {
             createConsole.printPrompt(PromptMessage.CREATE, true);

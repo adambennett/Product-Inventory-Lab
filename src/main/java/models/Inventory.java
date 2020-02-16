@@ -95,11 +95,7 @@ public class Inventory {
         rollbackList.add(p);
     }
 
-    public static void remove(Product p) {
-        currentInventory.remove(p);
-    }
-
-    public static void remove(int ID) {
+    public static void removeOneOf(int ID) {
         ArrayList<Product> toRemove = new ArrayList<>();
         for (Product p : currentInventory) {
             if (p.getId() == ID) {
@@ -112,11 +108,12 @@ public class Inventory {
         }
     }
 
-    public static void remove(String name) {
+    public static void removeOneOf(String name) {
         ArrayList<Product> toRemove = new ArrayList<>();
         for (Product p : currentInventory) {
             if (p.getName().toLowerCase().equals(name.toLowerCase())) {
                 toRemove.add(p);
+                break;
             }
         }
 
@@ -191,47 +188,73 @@ public class Inventory {
     }
 
     public static void increaseAmtOfProduct(int id, int amt, boolean copyExact) {
-        ArrayList<Product> toAdd = new ArrayList<>();
-        for (Product p : currentInventory) {
-            if (p.getId() == id) {
-                if (p instanceof Figurine) {
-                   toAdd.add(p);
-                   break;
-                } else if (p instanceof BoardGame) {
-                    toAdd.add(p);
-                    break;
-                }
-            }
-        }
-
-        refreshInventory(amt, toAdd, copyExact);
+        ArrayList<Product> toAdd = getAllProductsByID(id);
+        addToInventory(amt, toAdd, copyExact);
     }
 
     public static void increaseAmtOfProduct(String prodName, int amt, boolean copyExact) {
-        ArrayList<Product> toAdd = new ArrayList<>();
+        ArrayList<Product> toAdd = getAllProductsByName(prodName);
+        addToInventory(amt, toAdd, copyExact);
+    }
+
+    public static void decreaseAmtOfProduct(int id, int amt) {
+        ArrayList<Product> toRemove = getAllProductsByID(id);
+        removeFromInventory(amt, toRemove);
+    }
+
+    public static void decreaseAmtOfProduct(String prodName, int amt) {
+        ArrayList<Product> toRemove = getAllProductsByName(prodName);
+        removeFromInventory(amt, toRemove);
+    }
+
+    private static ArrayList<Product> getAllProductsByName(String prodName) {
+        ArrayList<Product> toRemove = new ArrayList<>();
         for (Product p : currentInventory) {
             if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
                 if (p instanceof Figurine) {
-                    toAdd.add(p);
+                    toRemove.add(p);
                     break;
                 } else if (p instanceof BoardGame) {
-                    toAdd.add(p);
+                    toRemove.add(p);
                     break;
                 }
             }
         }
-
-        refreshInventory(amt, toAdd, copyExact);
+        return toRemove;
     }
 
-    private static void refreshInventory(int amt, ArrayList<Product> toAdd, boolean copyExact) {
+    private static ArrayList<Product> getAllProductsByID(int id) {
+        ArrayList<Product> toRemove = new ArrayList<>();
+        for (Product p : currentInventory) {
+            if (p.getId() == id) {
+                if (p instanceof Figurine) {
+                    toRemove.add(p);
+                    break;
+                } else if (p instanceof BoardGame) {
+                    toRemove.add(p);
+                    break;
+                }
+            }
+        }
+        return toRemove;
+    }
+
+    private static void addToInventory(int amt, ArrayList<Product> toAdd, boolean copyExact) {
         for (Product p : toAdd) {
             for (int i = 0; i < amt; i++) {
                 if (p instanceof BoardGame) {
-                    currentInventory.add(p.copyAsBoardGame());
+                    add(p.copyAsBoardGame());
                 } else if (p instanceof Figurine) {
-                    currentInventory.add(p.copyAsFigurine(copyExact));
+                    add(p.copyAsFigurine(copyExact));
                 }
+            }
+        }
+    }
+
+    private static void removeFromInventory(int amt, ArrayList<Product> toRemove) {
+        for (Product p : toRemove) {
+            for (int i = 0; i < amt; i++) {
+                removeOneOf(p.getName());
             }
         }
     }

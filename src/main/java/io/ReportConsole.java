@@ -8,6 +8,7 @@ public class ReportConsole extends AbstractConsole {
         consoleCommands.put("list", Command.LIST);
         consoleCommands.put("report", Command.REPORT);
         consoleCommands.put("return", Command.RETURN);
+        consoleCommands.put("read", Command.READ);
         consoleCommands.put("help", Command.HELP);
     }
 
@@ -18,20 +19,23 @@ public class ReportConsole extends AbstractConsole {
 
     @Override
     public void processCommand(Command cmd, ArrayList<String> args) {
+        Console console = new Console();
         switch (cmd) {
             case LIST:
                 printPrompt(PromptMessage.LIST, true);
                 return;
             case REPORT:
                 //TODO
+                // Generate more detailed reports of specific products by name or ID
                 return;
+            case READ:
+                console.processCommand(Command.READ, null);
             case RETURN:
-                Console console = new Console();
                 console.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
-                printHelpCommand();
-                printPrompt(PromptMessage.STANDARD, true);
+                printHelpCommand(this);
+                printPrompt(PromptMessage.BLANK, true);
                 return;
         }
     }

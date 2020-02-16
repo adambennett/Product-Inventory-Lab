@@ -117,8 +117,8 @@ public class CreateConsole extends AbstractConsole {
                 console.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
-                printHelpCommand();
-                printPrompt(PromptMessage.STANDARD, true);
+                printHelpCommand(this);
+                printPrompt(PromptMessage.BLANK, true);
                 return;
         }
     }

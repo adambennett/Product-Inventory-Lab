@@ -33,12 +33,11 @@ public class UpdateConsole extends AbstractConsole {
                 printPrompt(PromptMessage.ADD, true);
                 return;
             case SUB:
-                //TODO
-                // Reduce quantity of products using runAdd() logic
+                runSub(args);
+                printPrompt(PromptMessage.SUB, true);
                 return;
             case SET:
-                //TODO
-                // Set properties of products using runAdd() logic + create game/figure logic
+                runSet(args);
                 return;
             case ROLLBACK:
                 Inventory.rollback();
@@ -49,55 +48,122 @@ public class UpdateConsole extends AbstractConsole {
                 console.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
-                printHelpCommand();
-                printPrompt(PromptMessage.STANDARD, true);
+                printHelpCommand(this);
+                printPrompt(PromptMessage.BLANK, true);
                 return;
         }
     }
 
     public void runAdd(ArrayList<String> args) {
-        int amtToIncreaseBy = 0;
+        analyzeUserInput(args, Modification.ADD);
+    }
+
+    public void runSub(ArrayList<String> args) {
+        analyzeUserInput(args, Modification.SUB);
+    }
+
+    public void runSet(ArrayList<String> args) {
+        analyzeUserInput(args, Modification.SET);
+    }
+
+    private void analyzeUserInput(ArrayList<String> args, Modification mod) {
+        int amt = 0;
+        boolean copyExact = false;
         String name = "";
-        int idToCheckFor = -1;
-        boolean lookingByID = false;
-        String trueFalse = "";
-        ArrayList<String> possibleNames = new ArrayList<>();
-        for (String s : args) {
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (String cmdArg : args) {
             try {
-                Integer num = Integer.parseInt(s);
+                Integer num = Integer.parseInt(cmdArg);
                 if (Inventory.isProduct(num)) {
-                    lookingByID = true;
-                    idToCheckFor = num;
+                    ids.add(num);
                 } else {
-                    amtToIncreaseBy += num;
+                    amt += num;
                 }
             } catch (NumberFormatException e) {
-                name += s + " ";
-                possibleNames.add(s);
-                if (s.toLowerCase().equals("true")) {
-                    trueFalse = s.toLowerCase();
+                if (cmdArg.toLowerCase().equals("true")) {
+                    copyExact = true;
+                }
+                else if (Inventory.isProduct(cmdArg)) {
+                    names.add(cmdArg);
+                } else {
+                    name += cmdArg + " ";
                 }
             }
         }
+
         name = name.trim();
-        boolean copyExact = trueFalse.equals("true");
-        if (amtToIncreaseBy < 1) { amtToIncreaseBy = 1; }
-        if (lookingByID) {
-            Inventory.increaseAmtOfProduct(idToCheckFor, amtToIncreaseBy, copyExact);
-        } else if (Inventory.isProduct(name)){
-            Inventory.increaseAmtOfProduct(name, amtToIncreaseBy, copyExact);
+        if (Inventory.isProduct(name)) {
+            names.add(name);
         }
-        else {
-            boolean found = false;
-            for (String s : possibleNames) {
-                if (Inventory.isProduct(s)) {
-                    Inventory.increaseAmtOfProduct(s, amtToIncreaseBy, copyExact);
-                    found = true;
+        processUserInput(mod, amt, copyExact, names, ids);
+    }
+
+    private void processSpecificCommandsFromInput(Modification mod, int id, String name, int amt, boolean copyExact) {
+        switch (mod) {
+            case ADD:
+                if (!name.equals("")) {
+                    Inventory.increaseAmtOfProduct(name, amt, copyExact);
+                } else if (id != -1) {
+                    Inventory.increaseAmtOfProduct(id, amt, copyExact);
                 }
-            }
-            if (!found) {
-                System.out.println("Improper arguments. Expecting ADD command to be followed by a product identifier (either name or ID) and an amount to increase that product's quantity by.");
+                return;
+            case SUB:
+                if (!name.equals("")) {
+                    Inventory.decreaseAmtOfProduct(name, amt);
+                } else if (id != -1) {
+                    Inventory.decreaseAmtOfProduct(id, amt);
+                }
+                return;
+            case SET:
+                // TODO
+                return;
+        }
+    }
+
+    private String getImproperArgumentsMessage(Modification mod) {
+        switch (mod) {
+            case ADD:
+                return "Improper arguments. Expecting ADD command to be followed by a product identifier (either name or ID) and an amount to increase that product's quantity by.";
+            case SUB:
+                return "Improper arguments. Expecting SUB command to be followed by a product identifier (either name or ID) and an amount to decrease that product's quantity by (optional, defaults to remove all).";
+            case SET:
+                // TODO
+                return "TODO";
+            default:
+                return "";
+        }
+    }
+
+    private void processUserInput(Modification mod, int amt, boolean copyExact, ArrayList<String> possibleNames, ArrayList<Integer> possibleIDs) {
+        String notFoundMsg = getImproperArgumentsMessage(mod);
+        boolean found = false;
+        if (mod.equals(Modification.SUB) && amt == 0) {
+            amt = Inventory.size();
+        }
+
+        for (Integer id : possibleIDs) {
+            if (Inventory.isProduct(id)) {
+                processSpecificCommandsFromInput(mod, id, "", amt, copyExact);
+                found = true;
             }
         }
+
+        for (String name : possibleNames) {
+            if (Inventory.isProduct(name)) {
+                processSpecificCommandsFromInput(mod, -1, name, amt, copyExact);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println(notFoundMsg);
+        }
+    }
+
+    private enum Modification {
+        ADD,
+        SUB,
+        SET
     }
 }
