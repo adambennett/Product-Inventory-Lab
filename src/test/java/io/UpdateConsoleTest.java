@@ -66,13 +66,15 @@ class UpdateConsoleTest {
         UpdateConsole updater;
 
         // Test 3 - test add with bad inputs mixed with good inputs
-        // should ideally add 38 new 'Lords of Waterdeep' board games (adding by ID of 1)
+        // should ideally add 40 new 'Lords of Waterdeep' board games (adding by valid product ID of 1)
+        // and also add 40 new Gandalf figurines (adding by a valid product name)
+        // 4, 20, 15 are all invalid product IDs so they should be summed to get the 40 value
         Inventory.clear();
         mockUserInput.clear();
         Inventory.add(game);
         Inventory.add(fig);
         mockUserInput.add("monkey bunny");
-        mockUserInput.add("3");
+        mockUserInput.add("4");
         mockUserInput.add("20");
         mockUserInput.add("15");
         mockUserInput.add("lords");
@@ -82,7 +84,7 @@ class UpdateConsoleTest {
         mockUserInput.add("1");
         updater = new UpdateConsole();
         updater.runAdd(mockUserInput);
-        Assertions.assertTrue(Inventory.size() == 40);
+        Assertions.assertTrue(Inventory.size() == 80);
     }
 
     @Test

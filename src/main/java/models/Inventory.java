@@ -243,9 +243,9 @@ public class Inventory {
         for (Product p : toAdd) {
             for (int i = 0; i < amt; i++) {
                 if (p instanceof BoardGame) {
-                    add(p.copyAsBoardGame());
+                    currentInventory.add(p.copyAsBoardGame());
                 } else if (p instanceof Figurine) {
-                    add(p.copyAsFigurine(copyExact));
+                    currentInventory.add(p.copyAsFigurine(copyExact));
                 }
             }
         }

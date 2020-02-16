@@ -140,6 +140,8 @@ public class UpdateConsole extends AbstractConsole {
         boolean found = false;
         if (mod.equals(Modification.SUB) && amt == 0) {
             amt = Inventory.size();
+        } else if (amt < 1) {
+            amt = 1;
         }
 
         for (Integer id : possibleIDs) {
