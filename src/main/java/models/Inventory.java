@@ -13,6 +13,10 @@ public class Inventory {
         return allProducts;
     }
 
+    public static void clear() {
+        allProducts.clear();
+    }
+
     public static void add(Product p) {
         allProducts.add(p);
     }
