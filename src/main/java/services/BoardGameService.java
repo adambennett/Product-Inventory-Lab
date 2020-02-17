@@ -25,7 +25,7 @@ public class BoardGameService {
     public static void loadJSONData(String fileName) {
         Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
-        String fullFile = "/Users/abennett/Desktop/" + fileName + ".json";
+        String fullFile = "/Users/abennett/Desktop/BoardGameInventories/" + fileName + ".json";
         try {
             Inventory.loadProductsBG(objectMapper.readValue(new File(fullFile), new TypeReference<ArrayList<BoardGame>>(){}));
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
@@ -35,14 +35,14 @@ public class BoardGameService {
         Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
-            Inventory.loadRollBackBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
+            Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGameInventories/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
+            Inventory.loadRollBackBG(objectMapper.readValue(new File("/Users/abennett/Desktop/BoardGameInventories/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
     }
 
     public static void loadData(){
         Inventory.clear();
-        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
+        String csvFile = "/Users/abennett/Desktop/InventoryCSV/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {

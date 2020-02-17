@@ -56,7 +56,7 @@ public class Console extends AbstractConsole {
                 return;
             case REPORT:
                 ReportConsole reportConsole = new ReportConsole();
-                reportConsole.printPrompt(PromptMessage.REPORT, true);
+                reportConsole.processCommand(Command.REPORT, args);
                 return;
             case EXIT:
                 ConsoleService.saveAllInventoryDataAsJSON();

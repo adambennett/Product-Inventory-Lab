@@ -152,12 +152,50 @@ public class Inventory {
         if (currentInventory.contains(p)) {
             for (Product prod : currentInventory) {
                 if (prod.equals(p)) {
-                   return prod;
+                    return prod;
                 }
             }
         }
 
         return null;
+    }
+
+    public static Product get(String name) {
+        for (Product prod : currentInventory) {
+            if (prod.getName().toLowerCase().equals(name.toLowerCase())) {
+                return prod;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Product> getAll(String name) {
+        ArrayList<Product> toRet = new ArrayList<>();
+        for (Product prod : currentInventory) {
+            if (prod.getName().toLowerCase().equals(name.toLowerCase())) {
+                toRet.add(prod);
+            }
+        }
+        return toRet;
+    }
+
+    public static Product get(int id) {
+        for (Product prod : currentInventory) {
+            if (prod.getId() == id) {
+                return prod;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Product> getAll(int id) {
+        ArrayList<Product> toRet = new ArrayList<>();
+        for (Product prod : currentInventory) {
+            if (prod.getId() == id) {
+                toRet.add(prod);
+            }
+        }
+        return toRet;
     }
 
     public static Integer amtOfProductByType(Product p) {

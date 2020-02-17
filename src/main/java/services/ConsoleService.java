@@ -60,8 +60,8 @@ public class ConsoleService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-            String fullFigurineFile = "/Users/abennett/Desktop/" + figurineFileName + ".json";
-            String fullBoardGameFile = "/Users/abennett/Desktop/" + boardGameFileName + ".json";
+            String fullFigurineFile = "/Users/abennett/Desktop/FigurineInventories/" + figurineFileName + ".json";
+            String fullBoardGameFile = "/Users/abennett/Desktop/BoardGameInventories/" + boardGameFileName + ".json";
             if (!figurineFileName.equals("")) {
                 writer.writeValue(new File(fullFigurineFile), Inventory.getFigurines());
             }
@@ -75,14 +75,14 @@ public class ConsoleService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-            writer.writeValue(new File("/Users/abennett/Desktop/Figurines.json"), Inventory.getFigurines());
-            writer.writeValue(new File("/Users/abennett/Desktop/BoardGames.json"), Inventory.getBoardGames());
+            writer.writeValue(new File("/Users/abennett/Desktop/FigurineInventories/Figurines.json"), Inventory.getFigurines());
+            writer.writeValue(new File("/Users/abennett/Desktop/BoardGameInventories/BoardGames.json"), Inventory.getBoardGames());
         }  catch (IOException e) {}
     }
 
     public static void saveAllInventoryData() {
         try {
-            String csvFile = "/Users/abennett/Desktop/Inventory.csv";
+            String csvFile = "/Users/abennett/Desktop/InventoryCSV/Inventory.csv";
             FileWriter writer = new FileWriter(csvFile); //(1)
             for (Product s : Inventory.getProducts()) {
                 List<String> list = new ArrayList<>();

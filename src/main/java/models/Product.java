@@ -78,4 +78,14 @@ public class Product {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getTypeAsString() {
+        if (this instanceof Figurine) {
+            return "Figurine";
+        } else if (this instanceof BoardGame) {
+            return "Board Game";
+        } else {
+            return "Product";
+        }
+    }
 }

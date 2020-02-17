@@ -13,9 +13,70 @@ public class Utilities {
     private static String lastCommand = "";
 
     public static String getStringOfProducts(int lengthToCheck) {
+        return getStringOfProducts(lengthToCheck, Inventory.getProducts());
+    }
+
+    public static String getReportString(String lengthCheck, ArrayList<Product> list) {
+        String toRet = "";
+        ArrayList<String> toFormat = new ArrayList<>();
+        ArrayList<String> toPrintFrom = new ArrayList<>();
+        String rowBar = "";
+        while (rowBar.length() < lengthCheck.length()) {
+            rowBar += "~";
+        }
+
+        for (Product p : list)
+        {
+            String idLine = "** ID: " + p.getId();
+            String typeLine = "** Type: " + p.getTypeAsString();
+            String name = "** Name: " + p.getName();
+            toFormat.add(idLine);
+            toFormat.add(typeLine);
+            toFormat.add(name);
+
+            if (p instanceof Figurine) {
+                String color = "** Color: " + ((Figurine)p).getColor();
+                toFormat.add(color);
+            }
+
+            else if (p instanceof BoardGame) {
+                String manu = "** Manufacturer: " + ((BoardGame)p).getManufacturer();
+                String age = "** Age Range: " + ((BoardGame)p).getAgeMinimum() + "-" + ((BoardGame)p).getAgeMax();
+                String playtime = "** Playtime: " + ((BoardGame)p).getAvgPlayingTime();
+                toFormat.add(manu);
+                toFormat.add(age);
+                toFormat.add(playtime);
+            }
+        }
+
+        for (String s : toFormat) {
+            while (s.length() < lengthCheck.length() - 2) {
+                s += " ";
+            }
+            s += "**\n";
+            toPrintFrom.add(s);
+        }
+
+        toRet += rowBar + "\n";
+        boolean foundFirstID = false;
+        for (String s : toPrintFrom) {
+            if (s.substring(0, 5).equals("** ID")) {
+                if (foundFirstID) {
+                    toRet += rowBar + "\n";
+                } else {
+                    foundFirstID = true;
+                }
+            }
+            toRet += s;
+        }
+        toRet += rowBar + "\n";
+        return toRet;
+    }
+
+    public static String getStringOfProducts(int lengthToCheck, ArrayList<Product> listToPrint) {
         ArrayList<String> uniques = new ArrayList<>();
         String toRet = "";
-        for (Product p : Inventory.getProducts()) {
+        for (Product p : listToPrint) {
             String prefix = "***";
             String suffix = "***\n";
             String space = " ";

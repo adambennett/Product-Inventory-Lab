@@ -25,7 +25,7 @@ public class FigurineService {
     public static void loadJSONData(String fileName) {
         Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
-        String fullFile = "/Users/abennett/Desktop/" + fileName + ".json";
+        String fullFile = "/Users/abennett/Desktop/FigurineInventories/" + fileName + ".json";
         try {
             Inventory.loadProductsFig((objectMapper.readValue(new File(fullFile), new TypeReference<ArrayList<Figurine>>(){})));
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
@@ -34,14 +34,14 @@ public class FigurineService {
     public static void loadJSONData() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Inventory.loadProductsFig((objectMapper.readValue(new File("/Users/abennett/Desktop/Figurines.json"), new TypeReference<ArrayList<Figurine>>(){})));
-            Inventory.loadRollBackFig((objectMapper.readValue(new File("/Users/abennett/Desktop/Figurines.json"), new TypeReference<ArrayList<Figurine>>(){})));
+            Inventory.loadProductsFig((objectMapper.readValue(new File("/Users/abennett/Desktop/FigurineInventories/Figurines.json"), new TypeReference<ArrayList<Figurine>>(){})));
+            Inventory.loadRollBackFig((objectMapper.readValue(new File("/Users/abennett/Desktop/FigurineInventories/Figurines.json"), new TypeReference<ArrayList<Figurine>>(){})));
         } catch (JsonParseException e) {} catch (JsonMappingException e) {} catch (IOException e) {}
     }
 
     public static void loadData(){
         // (1)
-        String csvFile = "/Users/abennett/Desktop/Inventory.csv";
+        String csvFile = "/Users/abennett/Desktop/InventoryCSV/Inventory.csv";
         String line = "";
         String csvSplitBy = ",";
 
