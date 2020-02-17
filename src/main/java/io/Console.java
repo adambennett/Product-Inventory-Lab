@@ -82,7 +82,7 @@ public class Console extends AbstractConsole {
                 return;
             case SAVEJSON:
                 if (args.size() > 1) {
-                    ConsoleService.saveAllInventoryDataAsJSON(args.get(1), args.get(0));
+                    ConsoleService.saveAllInventoryDataAsJSON(args.get(0), args.get(1));
                 } else {
                     ConsoleService.saveAllInventoryDataAsJSON();
                 }
@@ -94,7 +94,7 @@ public class Console extends AbstractConsole {
                 return;
             case LOADJSON:
                 if (args.size() > 1) {
-                    Inventory.loadData(args.get(1), args.get(0));
+                    Inventory.loadData(args.get(0), args.get(1));
                 } else {
                     Inventory.loadData("BoardGames", "Figurines");
                 }

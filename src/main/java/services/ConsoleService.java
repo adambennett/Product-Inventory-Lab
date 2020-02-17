@@ -56,7 +56,7 @@ public class ConsoleService {
         return userInput;
     }
 
-    public static void saveAllInventoryDataAsJSON(String figurineFileName, String boardGameFileName) {
+    public static void saveAllInventoryDataAsJSON(String boardGameFileName, String figurineFileName) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         String fullFigurineFile = "/Users/Inventory/Figures/" + figurineFileName + ".json";
