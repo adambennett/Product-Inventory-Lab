@@ -28,7 +28,7 @@ public class Utilities {
         for (Product p : list)
         {
             String idLine = "** ID: " + p.getId();
-            String typeLine = "** Type: " + p.getTypeAsString();
+            String typeLine = "** Type: " + getTypeAsString(p);
             String name = "** Name: " + p.getName();
             toFormat.add(idLine);
             toFormat.add(typeLine);
@@ -190,5 +190,15 @@ public class Utilities {
 
     public static void addRandomProductToInventory(int amt) {
         Inventory.addAll(generateRandomProduct(amt));
+    }
+
+    public static String getTypeAsString(Product p) {
+        if (p instanceof Figurine) {
+            return "Figurine";
+        } else if (p instanceof BoardGame) {
+            return "Board Game";
+        } else {
+            return "Product";
+        }
     }
 }

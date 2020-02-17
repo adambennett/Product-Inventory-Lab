@@ -20,7 +20,7 @@ public class Product {
             ((BoardGame)this).setManufacturer(((BoardGame) p).getManufacturer());
             ((BoardGame)this).setAvgPlayingTime(((BoardGame) p).getAvgPlayingTime());
         } else if (p instanceof Figurine) {
-
+            ((Figurine)this).setColor(((Figurine) p).getColor());
         }
     }
 
@@ -77,15 +77,5 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTypeAsString() {
-        if (this instanceof Figurine) {
-            return "Figurine";
-        } else if (this instanceof BoardGame) {
-            return "Board Game";
-        } else {
-            return "Product";
-        }
     }
 }

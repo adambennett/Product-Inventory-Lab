@@ -57,26 +57,29 @@ public class ConsoleService {
     }
 
     public static void saveAllInventoryDataAsJSON(String figurineFileName, String boardGameFileName) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-            String fullFigurineFile = "/Users/Inventory/Figures/" + figurineFileName + ".json";
-            String fullBoardGameFile = "/Users/Inventory/BoardGames/" + boardGameFileName + ".json";
-            if (!figurineFileName.equals("")) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        String fullFigurineFile = "/Users/Inventory/Figures/" + figurineFileName + ".json";
+        String fullBoardGameFile = "/Users/Inventory/BoardGames/" + boardGameFileName + ".json";
+        if (!figurineFileName.equals("")) {
+            try {
                 writer.writeValue(new File(fullFigurineFile), Inventory.getFigurines());
-            }
-            if (!boardGameFileName.equals("")) {
+            } catch (IOException e) {}
+        }
+        if (!boardGameFileName.equals("")) {
+            try {
                 writer.writeValue(new File(fullBoardGameFile), Inventory.getBoardGames());
-            }
-        }  catch (IOException e) {}
+            } catch (IOException e) {}
+        }
     }
 
     public static void saveAllInventoryDataAsJSON() {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
             writer.writeValue(new File("/Users/Inventory/Figures/Figurines.json"), Inventory.getFigurines());
-            writer.writeValue(new File("/Users/Inventory/BoardGames/BoardGames.json"), Inventory.getBoardGames());
+        } catch (IOException e) {}
+        try { writer.writeValue(new File("/Users/Inventory/BoardGames/BoardGames.json"), Inventory.getBoardGames());
         }  catch (IOException e) {}
     }
 
