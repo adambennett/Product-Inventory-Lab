@@ -1,18 +1,33 @@
 package utils;
 
+import io.AbstractConsole;
+import io.MainConsole;
+import models.BoardGame;
+import models.Inventory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class UtilitiesTest {
+import java.util.ArrayList;
 
-    @Test
-    void getStringOfProducts() {
-    }
-
+class UtilitiesTest
+{
     @Test
     void getListOfProducts() {
+        Inventory.clear();
+        Inventory.add(new BoardGame("Carcassone"));
+        Inventory.add(new BoardGame("Lords of Waterdeep"));
+        Inventory.add(new BoardGame("Monopoly"));
+        Inventory.add(new BoardGame("Sorry"));
+        Integer expected = 4;
+        Integer actual = Utilities.getListOfProducts().size();
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     void capFirstLetter() {
+        String input = "oooo";
+        String expected = "Oooo";
+        String actual = Utilities.capFirstLetter(input);
+        Assertions.assertEquals(expected, actual);
     }
 }

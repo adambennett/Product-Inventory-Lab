@@ -195,6 +195,20 @@ public class MenuStrings {
                 "***  Enter 'Sub' and Product ID to Decrease Quantity by 1   ***\n" +
                 "***************************************************************\n";
 
+        forLengthChecks = "**************************************************";
+        allProducts = Utilities.getStringOfProducts(forLengthChecks.length());
+        set = "" +
+                "**************************************************\n" +
+                "***     ZipCo Inventory Manager - Set Menu     ***\n" +
+                "***                                            ***\n" +
+                "***                                            ***\n" +
+                "***                                            ***\n" +
+                allProducts +
+                "***                                            ***\n" +
+                "***                                            ***\n" +
+                "***      Enter 'Help' for a List of Commands   ***\n" +
+                "**************************************************\n";
+
         mainMenuCommands = "" +
                 "*******************************************************************\n" +
                 "**                      Main Menu Commands                       **\n" +
@@ -288,21 +302,16 @@ public class MenuStrings {
                 "*******************************************************************\n";
 
         modify = "";
-        set = "";
     }
 
     public static String getStringFromPromptType(AbstractConsole.PromptMessage msg) {
         switch (msg) {
-            case READ:
-                return standard;
             case CREATE:
                 return create;
             case DELETE:
                 return delete;
             case REPORT:
                 return report;
-            case STANDARD:
-                return standard;
             case UPDATE:
                 return update;
             case WELCOME:
@@ -325,6 +334,8 @@ public class MenuStrings {
                 return commands;
             case BLANK:
                 return "";
+            case READ:
+            case STANDARD:
             default:
                 return standard;
         }

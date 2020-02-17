@@ -10,12 +10,12 @@ class AbstractConsoleTest {
 
     @Test
     void commandExists() {
-        Console console = new Console();
+        MainConsole mainConsole = new MainConsole();
         CreateConsole creator = new CreateConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
 
-        Assertions.assertTrue(console.commandExists("Help"));
+        Assertions.assertTrue(mainConsole.commandExists("Help"));
         Assertions.assertTrue(creator.commandExists("Help"));
     }
 
@@ -38,12 +38,12 @@ class AbstractConsoleTest {
         */
 
         try {
-            Console console = new Console();
+            MainConsole mainConsole = new MainConsole();
             CreateConsole creator = new CreateConsole();
             DeleteConsole deletor = new DeleteConsole();
             UpdateConsole updater = new UpdateConsole();
 
-            Method consoleMethod = console.getClass().getDeclaredMethod("isValidCommandInAnyConsole", Console.class);
+            Method consoleMethod = mainConsole.getClass().getDeclaredMethod("isValidCommandInAnyConsole", MainConsole.class);
             Method creatorMethod = creator.getClass().getDeclaredMethod("isValidCommandInAnyConsole", CreateConsole.class);
             Method deletorMethod = deletor.getClass().getDeclaredMethod("isValidCommandInAnyConsole", DeleteConsole.class);
             Method updaterMethod = updater.getClass().getDeclaredMethod("isValidCommandInAnyConsole", UpdateConsole.class);
@@ -53,7 +53,7 @@ class AbstractConsoleTest {
             deletorMethod.setAccessible(true);
             updaterMethod.setAccessible(true);
 
-            Boolean actual = (Boolean) consoleMethod.invoke(console, "game");
+            Boolean actual = (Boolean) consoleMethod.invoke(mainConsole, "game");
             Boolean actualB = (Boolean) creatorMethod.invoke(creator, "game");
             Boolean actualC = (Boolean) deletorMethod.invoke(deletor, "game");
             Boolean actualD = (Boolean) updaterMethod.invoke(updater, "game");

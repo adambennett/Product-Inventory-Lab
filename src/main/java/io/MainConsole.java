@@ -6,7 +6,7 @@ import utils.Utilities;
 
 import java.util.ArrayList;
 
-public class Console extends AbstractConsole {
+public class MainConsole extends AbstractConsole {
 
     @Override
     protected void initializeCommands() {
@@ -128,7 +128,7 @@ public class Console extends AbstractConsole {
         return false;
     }
 
-    private void createRandomProducts(ArrayList<String> args) {
+    public void createRandomProducts(ArrayList<String> args) {
         int amt = 0;
         if (args.size() > 1) {
             for (int i = 1; i < args.size(); i++) {

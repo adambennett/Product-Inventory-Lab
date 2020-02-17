@@ -1,8 +1,10 @@
 package models;
 
+import io.UpdateConsole;
 import services.BoardGameService;
 import services.FigurineService;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class Inventory {
@@ -242,6 +244,93 @@ public class Inventory {
         ArrayList<Product> toRemove = getAllProductsByName(prodName);
         removeFromInventory(amt, toRemove);
     }
+
+    public static void setProduct(String prodName, UpdateConsole.FieldCommands fieldToEdit, String newFieldValue) {
+        for (Product p : currentInventory) {
+            if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
+                if (UpdateConsole.fieldCommandMatchesProductType(fieldToEdit, p)) {
+                    // edit field of p with newFieldValue
+                }
+            }
+        }
+    }
+
+    public static Boolean modify(Product p, UpdateConsole.FieldCommands field, String newValue) {
+        if (p instanceof BoardGame) {
+            BoardGame g = (BoardGame)p;
+            return modifyBG(g, field, newValue);
+        } else if (p instanceof Figurine) {
+            Figurine f = (Figurine)p;
+            return modifyFig(f, field, newValue);
+        } else if (field.equals(UpdateConsole.FieldCommands.ID) || field.equals(UpdateConsole.FieldCommands.NAME)) {
+            return modifyGeneralProd(p, field, newValue);
+        } else {
+            return false;
+        }
+    }
+
+    public static Boolean modifyGeneralProd(Product g, UpdateConsole.FieldCommands field, String val) {
+        switch (field) {
+            case NAME:
+                g.setName(val);
+                return true;
+            case ID:
+                try {
+                    g.setId(Integer.parseInt(val));
+                    return true;
+                } catch (NumberFormatException e) { return false; }
+            default:
+                return false;
+        }
+    }
+
+    public static Boolean modifyBG(BoardGame g, UpdateConsole.FieldCommands field, String val) {
+        switch (field) {
+            case MANUFACTURER:
+                g.setManufacturer(val);
+                return true;
+            case AGE:
+                try {
+                    g.setAgeMinimum(Integer.parseInt(val));
+                    return true;
+                } catch (NumberFormatException e) { return false; }
+            case PLAYTIME:
+                try {
+                    g.setAvgPlayingTime(Integer.parseInt(val));
+                    return true;
+                } catch (NumberFormatException e) { return false; }
+            case NAME:
+                g.setName(val);
+                return true;
+            case ID:
+                try {
+                    g.setId(Integer.parseInt(val));
+                    return true;
+                } catch (NumberFormatException e) { return false; }
+            default:
+                return false;
+        }
+    }
+
+    public static Boolean modifyFig(Figurine g, UpdateConsole.FieldCommands field, String val) {
+        switch (field) {
+            case COLOR:
+                g.setColor(val);
+                return true;
+            case NAME:
+                g.setName(val);
+                return true;
+            case ID:
+                try {
+                    g.setId(Integer.parseInt(val));
+                    return true;
+                } catch (NumberFormatException e) { return false; }
+            default:
+                return false;
+        }
+    }
+
+
 
     private static ArrayList<Product> getAllProductsByName(String prodName) {
         ArrayList<Product> toRemove = new ArrayList<>();

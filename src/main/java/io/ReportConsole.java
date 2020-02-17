@@ -23,7 +23,7 @@ public class ReportConsole extends AbstractConsole {
 
     @Override
     public void processCommand(Command cmd, ArrayList<String> args) {
-        Console console = new Console();
+        MainConsole mainConsole = new MainConsole();
         switch (cmd) {
             case LIST:
                 printPrompt(PromptMessage.LIST, true);
@@ -33,9 +33,9 @@ public class ReportConsole extends AbstractConsole {
                 printPrompt(PromptMessage.REPORT, true);
                 return;
             case READ:
-                console.processCommand(Command.READ, null);
+                mainConsole.processCommand(Command.READ, null);
             case RETURN:
-                console.printPrompt(PromptMessage.STANDARD, true);
+                mainConsole.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
                 printHelpCommand(this);

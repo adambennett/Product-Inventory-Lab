@@ -12,8 +12,8 @@ public class App {
 
     public void init(){
         Inventory.loadData();
-        Console mainConsole = new Console();
-        mainConsole.printPrompt(Console.PromptMessage.WELCOME, true);
+        MainConsole mainConsole = new MainConsole();
+        mainConsole.printPrompt(MainConsole.PromptMessage.WELCOME, true);
     }
 
 }

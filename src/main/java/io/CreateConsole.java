@@ -113,8 +113,8 @@ public class CreateConsole extends AbstractConsole {
                 afterBoardGame(addedBGProperly);
                 return;
             case RETURN:
-                Console console = new Console();
-                console.printPrompt(PromptMessage.STANDARD, true);
+                MainConsole mainConsole = new MainConsole();
+                mainConsole.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
                 printHelpCommand(this);

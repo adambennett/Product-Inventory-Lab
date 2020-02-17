@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryTest {
 
+    //TODO CLASS
+
     @Test
     void getFigurines() {
     }

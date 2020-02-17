@@ -48,7 +48,7 @@ public abstract class AbstractConsole
     }
 
     protected void printHelpCommand(AbstractConsole consoleType) {
-        if (consoleType instanceof Console) {
+        if (consoleType instanceof MainConsole) {
             System.out.println(MenuStrings.mainMenuCommands);
         } else if (consoleType instanceof CreateConsole) {
             System.out.println(MenuStrings.createMenuCommands);
@@ -103,11 +103,11 @@ public abstract class AbstractConsole
     }
 
     private static boolean isValidCommandInAnyConsole(String cmd) {
-        Console console = new Console();
+        MainConsole mainConsole = new MainConsole();
         CreateConsole creator = new CreateConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
-        if (console.commandExists(cmd)) { return true; }
+        if (mainConsole.commandExists(cmd)) { return true; }
         else if (creator.commandExists(cmd)) { return true; }
         else if (deletor.commandExists(cmd)) { return true; }
         else if (updater.commandExists(cmd)) { return true; }
@@ -115,11 +115,11 @@ public abstract class AbstractConsole
     }
 
     private static AbstractConsole whichConsoleHasThisCommand(String cmd) {
-        Console console = new Console();
+        MainConsole mainConsole = new MainConsole();
         CreateConsole creator = new CreateConsole();
         DeleteConsole deletor = new DeleteConsole();
         UpdateConsole updater = new UpdateConsole();
-        if (console.commandExists(cmd)) { return console; }
+        if (mainConsole.commandExists(cmd)) { return mainConsole; }
         else if (creator.commandExists(cmd)) { return creator; }
         else if (deletor.commandExists(cmd)) { return deletor; }
         else if (updater.commandExists(cmd)) { return updater; }

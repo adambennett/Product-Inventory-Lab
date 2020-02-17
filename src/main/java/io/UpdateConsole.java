@@ -1,10 +1,18 @@
 package io;
 
+import models.BoardGame;
+import models.Figurine;
 import models.Inventory;
+import models.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class UpdateConsole extends AbstractConsole {
+
+    private static Map<String, FieldCommands> setCommands;
 
     @Override
     protected void initializeCommands() {
@@ -38,14 +46,15 @@ public class UpdateConsole extends AbstractConsole {
                 return;
             case SET:
                 runSet(args);
+                printPrompt(PromptMessage.SET, true);
                 return;
             case ROLLBACK:
                 Inventory.rollback();
                 printPrompt(PromptMessage.UPDATE, true);
                 return;
             case RETURN:
-                Console console = new Console();
-                console.printPrompt(PromptMessage.STANDARD, true);
+                MainConsole mainConsole = new MainConsole();
+                mainConsole.printPrompt(PromptMessage.STANDARD, true);
                 return;
             case HELP:
                 printHelpCommand(this);
@@ -63,7 +72,85 @@ public class UpdateConsole extends AbstractConsole {
     }
 
     public void runSet(ArrayList<String> args) {
-        analyzeUserInput(args, Modification.SET);
+        analyzeUserInputSet(args);
+    }
+
+    private void analyzeUserInputSet(ArrayList<String> args) {
+        int amt = 0;
+        boolean copyExact = false;
+        String name = "";
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<String> fieldIdentifiers = new ArrayList<>();
+        ArrayList<String> newFields = new ArrayList<>();
+
+        if (args.size() > 0) {
+            try {
+                Integer prodID = Integer.parseInt(args.get(0));
+                if (Inventory.isProduct(prodID)) {
+                    ids.add(prodID);
+                }
+            } catch (NumberFormatException e) {
+                if (Inventory.isProduct(args.get(0))) {
+                    names.add(args.get(0));
+                }
+            }
+        }
+
+        for (int i = 1; i < args.size(); i++) {
+            boolean found = false;
+            try {
+                Integer prodID = Integer.parseInt(args.get(i));
+                if (Inventory.isProduct(prodID)) {
+                    ids.add(prodID);
+                    found = true;
+                }
+            } catch (NumberFormatException e) {}
+
+            if (setCommands.containsKey(args.get(i).toLowerCase()) && !found) {
+                fieldIdentifiers.add(args.get(i).toLowerCase());
+                found = true;
+            }
+
+            if (!found) {
+                newFields.add(args.get(i));
+            }
+        }
+
+        int counter = 0;
+        int newCounter = 0;
+        boolean found = false;
+        try {
+            for (String s : names) {
+                boolean tempFound = Inventory.modify(Inventory.get(s), setCommands.get(fieldIdentifiers.get(counter)), newFields.get(newCounter));
+                if (tempFound) {
+                    counter++;
+                    newCounter++;
+                    found = true;
+                    if (fieldIdentifiers.size() <= counter || newFields.size() <= newCounter) {
+                        break;
+                    }
+                }
+            }
+
+            for (Integer id : ids) {
+                boolean tempFound = Inventory.modify(Inventory.get(id), setCommands.get(fieldIdentifiers.get(counter)), newFields.get(newCounter));
+                if (tempFound) {
+                    counter++;
+                    newCounter++;
+                    found = true;
+                    if (fieldIdentifiers.size() <= counter || newFields.size() <= newCounter) {
+                        break;
+                    }
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            Logger.getGlobal().info("Set command caused arrays to go out of bounds - probably you entered the command parameters incorrectly!");
+        }
+
+        if (!found) {
+            System.out.println(getImproperArgumentsMessage(Modification.SET));
+        }
     }
 
     private void analyzeUserInput(ArrayList<String> args, Modification mod) {
@@ -128,8 +215,7 @@ public class UpdateConsole extends AbstractConsole {
             case SUB:
                 return "Improper arguments. Expecting SUB command to be followed by a product identifier (either name or ID) and an amount to decrease that product's quantity by (optional, defaults to remove all).";
             case SET:
-                // TODO
-                return "TODO";
+                return "Improper arguments. Expecting SET command to be followed by a product identifier (either name or ID), field identifier (full field name or shorthand), and a new value for the given field.";
             default:
                 return "";
         }
@@ -163,9 +249,56 @@ public class UpdateConsole extends AbstractConsole {
         }
     }
 
+    public static Boolean fieldCommandMatchesProductType(FieldCommands fc, Product prod) {
+        switch (fc) {
+            case COLOR:
+                return prod instanceof Figurine;
+            case MANUFACTURER:
+            case AGE:
+            case PLAYTIME:
+                return prod instanceof BoardGame;
+            case NAME:
+            case ID:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    static {
+        setCommands = new HashMap<>();
+
+        setCommands.put("color", FieldCommands.COLOR);
+        setCommands.put("c", FieldCommands.COLOR);
+
+        setCommands.put("manufacturer", FieldCommands.MANUFACTURER);
+        setCommands.put("m", FieldCommands.MANUFACTURER);
+
+        setCommands.put("age", FieldCommands.AGE);
+        setCommands.put("a", FieldCommands.AGE);
+
+        setCommands.put("playtime", FieldCommands.PLAYTIME);
+        setCommands.put("p", FieldCommands.PLAYTIME);
+
+        setCommands.put("name", FieldCommands.NAME);
+        setCommands.put("n", FieldCommands.NAME);
+
+        setCommands.put("id", FieldCommands.ID);
+        setCommands.put("i", FieldCommands.ID);
+    }
+
     private enum Modification {
         ADD,
         SUB,
         SET
+    }
+
+    public enum FieldCommands {
+        COLOR,
+        MANUFACTURER,
+        AGE,
+        PLAYTIME,
+        NAME,
+        ID
     }
 }
