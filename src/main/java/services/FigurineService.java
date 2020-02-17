@@ -23,7 +23,6 @@ public class FigurineService {
     }
 
     public static void loadJSONData(String fileName) {
-        Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
         String fullFile = "/Users/Inventory/Figures/" + fileName + ".json";
         try {

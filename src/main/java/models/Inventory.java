@@ -11,7 +11,10 @@ public class Inventory {
     private static ArrayList<Product> rollbackList;
 
     public static void rollback() {
-        currentInventory = rollbackList;
+        currentInventory.clear();
+        for (Product p : rollbackList) {
+            add(p);
+        }
     }
 
     public static ArrayList<Product> getProducts() {
@@ -87,11 +90,6 @@ public class Inventory {
     }
 
     public static void addRollback(Product p) {
-        int loopMax = 100;
-        while (isProduct(p.getId()) && loopMax > 0) {
-            p.setId(Product.generateID());
-            loopMax--;
-        }
         rollbackList.add(p);
     }
 
@@ -298,11 +296,13 @@ public class Inventory {
     }
 
     public static void loadData(String boardFile, String figureFile) {
+        clear();
         BoardGameService.loadJSONData(boardFile);
         FigurineService.loadJSONData(figureFile);
     }
 
     public static void loadData() {
+        clear();
         BoardGameService.loadJSONData();
         FigurineService.loadJSONData();
     }

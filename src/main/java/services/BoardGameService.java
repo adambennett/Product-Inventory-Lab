@@ -23,7 +23,6 @@ public class BoardGameService {
     }
 
     public static void loadJSONData(String fileName) {
-        Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
         String fullFile = "/Users/Inventory/BoardGames/" + fileName + ".json";
         try {
@@ -32,7 +31,6 @@ public class BoardGameService {
     }
 
     public static void loadJSONData() {
-        Inventory.clear();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Inventory.loadProductsBG(objectMapper.readValue(new File("/Users/Inventory/BoardGames/BoardGames.json"), new TypeReference<ArrayList<BoardGame>>(){}));
