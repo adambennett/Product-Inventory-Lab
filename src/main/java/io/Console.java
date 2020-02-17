@@ -78,6 +78,7 @@ public class Console extends AbstractConsole {
                 return;
             case SAVECSV:
                 ConsoleService.saveAllInventoryData();
+                printPrompt(PromptMessage.STANDARD, true);
                 return;
             case SAVEJSON:
                 if (args.size() > 1) {
@@ -89,6 +90,7 @@ public class Console extends AbstractConsole {
                 return;
             case LOADCSV:
                 Inventory.loadData();
+                printPrompt(PromptMessage.STANDARD, true);
                 return;
             case LOADJSON:
                 if (args.size() > 1) {
@@ -96,6 +98,7 @@ public class Console extends AbstractConsole {
                 } else {
                     Inventory.loadData("BoardGames", "Figurines");
                 }
+                printPrompt(PromptMessage.STANDARD, true);
                 return;
             default:
                 processCommand(Command.BAD_COMMAND, null);
