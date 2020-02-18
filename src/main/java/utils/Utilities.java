@@ -6,11 +6,12 @@ import models.Inventory;
 import models.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Utilities {
-
-    private static String lastCommand = "";
 
     public static String getStringOfProducts(int lengthToCheck) {
         return getStringOfProducts(lengthToCheck, Inventory.getProducts());
@@ -113,8 +114,10 @@ public class Utilities {
 
     public static ArrayList<String> getListOfProducts() {
         ArrayList<String> uniques = new ArrayList<>();
+        Map<String, ArrayList<String>> orderedNames = new HashMap<>();
         for (Product p : Inventory.getProducts()) {
-            String s = "[" + Inventory.amtOfProductByName(p) + "]: " + capFirstLetter(p.getName());
+            String name = capFirstLetter(p.getName());
+            String s = "[" + Inventory.amtOfProduct(p) + "]: " + capFirstLetter(p.getName());
             if (p instanceof BoardGame) {
                 BoardGame bg = (BoardGame)p;
                 s += " (Ages " + bg.getAgeMinimum() + " to " + bg.getAgeMax() + ", Playtime: " + bg.getAvgPlayingTime() + " minutes)";
@@ -126,17 +129,28 @@ public class Utilities {
             }
             if (!uniques.contains(s)) {
                 uniques.add(s);
+                if (orderedNames.containsKey(name)) {
+                    orderedNames.get(name).add(s);
+                } else {
+                    ArrayList<String> newList = new ArrayList<>();
+                    newList.add(s);
+                    orderedNames.put(name, newList);
+                }
             }
         }
-        return uniques;
-    }
 
-    public static String getLastCommand() {
-        return lastCommand;
-    }
-
-    public static void setLastCommand(String newLastCommand) {
-        lastCommand = newLastCommand;
+        ArrayList<String> nameList = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<String>> entry : orderedNames.entrySet()) {
+            if (!nameList.contains(entry.getKey())) {
+                nameList.add(entry.getKey());
+            }
+        }
+        Collections.sort(nameList);
+        ArrayList<String> allStrings = new ArrayList<>();
+        for (String name : nameList) {
+            allStrings.addAll(orderedNames.get(name));
+        }
+        return allStrings;
     }
 
     public static String capFirstLetter(String s) {

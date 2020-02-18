@@ -4,16 +4,18 @@ import io.UpdateConsole;
 import services.BoardGameService;
 import services.FigurineService;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Inventory {
 
     private static ArrayList<Product> currentInventory;
     private static ArrayList<Product> rollbackList;
+    private static Map<String, Integer> occurrences;
 
     public static void rollback() {
-        currentInventory.clear();
+        clear();
         for (Product p : rollbackList) {
             add(p);
         }
@@ -69,43 +71,35 @@ public class Inventory {
 
     public static void clear() {
         currentInventory.clear();
+        occurrences.clear();
     }
 
     public static void add(Product p) {
+        add(p, false);
+    }
+
+    public static void add(Product p, boolean addToRollback) {
         int loopMax = 100;
         while (isProduct(p.getId()) && loopMax > 0) {
             p.setId(Product.generateID());
             loopMax--;
         }
-        currentInventory.add(p);
+        if (addToRollback) {
+            rollbackList.add(p);
+        } else {
+            currentInventory.add(p);
+            processOccurrences(p);
+        }
     }
 
     public static void addAll(ArrayList<Product> prods) {
-        int loopMax = 5;
-        for (Product p : prods) {
-            while (isProduct(p.getId()) && loopMax > 0) {
-                p.setId(Product.generateID());
-                loopMax--;
-            }
-            currentInventory.add(p);
-        }
+       for (Product p : prods) {
+           add(p);
+       }
     }
 
     public static void addRollback(Product p) {
-        rollbackList.add(p);
-    }
-
-    public static void removeOneOf(int ID) {
-        ArrayList<Product> toRemove = new ArrayList<>();
-        for (Product p : currentInventory) {
-            if (p.getId() == ID) {
-                toRemove.add(p);
-            }
-        }
-
-        for (Product p : toRemove) {
-            currentInventory.remove(p);
-        }
+        add(p, true);
     }
 
     public static void removeOneOf(String name) {
@@ -119,6 +113,16 @@ public class Inventory {
 
         for (Product p : toRemove) {
             currentInventory.remove(p);
+            String productName = p.getName().toLowerCase();
+            if (p instanceof Figurine) {
+                productName += ((Figurine) p).getColor();
+            }
+            if (occurrences.containsKey(productName)) {
+                occurrences.put(productName, occurrences.get(productName) - 1);
+                if (occurrences.get(productName) < 1) {
+                    occurrences.remove(productName);
+                }
+            }
         }
     }
 
@@ -132,20 +136,20 @@ public class Inventory {
     }
 
     public static Boolean isProduct(String name) {
-        for (Product p : currentInventory) {
-            if (p.getName().toLowerCase().equals(name.toLowerCase())) {
-                return true;
+        if (occurrences.containsKey(name)) {
+            return true;
+        } else {
+            for (Product p : currentInventory) {
+                if (p.getName().toLowerCase().equals(name.toLowerCase())) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     public static Integer size() {
         return currentInventory.size();
-    }
-
-    public static void set(Product p, int index) {
-        currentInventory.set(index, p);
     }
 
     public static Product get(Product p) {
@@ -198,31 +202,12 @@ public class Inventory {
         return toRet;
     }
 
-    public static Integer amtOfProductByType(Product p) {
-        int amt = 0;
-        for (Product prod : currentInventory) {
-            if (prod.getType().equals(p.getType())) {
-                amt++;
-            }
+    public static Integer amtOfProduct(Product p) {
+        if (p instanceof Figurine) {
+            return occurrences.getOrDefault(p.getName().toLowerCase() + ((Figurine) p).getColor(), 0);
+        } else {
+            return occurrences.getOrDefault(p.getName().toLowerCase(), 0);
         }
-        return amt;
-    }
-
-    public static Integer amtOfProductByName(Product p) {
-        int amt = 0;
-        for (Product prod : currentInventory) {
-            if (p instanceof Figurine && prod instanceof Figurine) {
-                Figurine fig = (Figurine)p;
-                Figurine figB = (Figurine)prod;
-                if (fig.getColor().toLowerCase().equals(figB.getColor().toLowerCase()) && fig.getName().toLowerCase().equals(figB.getName().toLowerCase())) {
-                    amt++;
-                }
-            }
-            else if (prod.getName().toLowerCase().equals(p.getName().toLowerCase())) {
-                amt++;
-            }
-        }
-        return amt;
     }
 
     public static void increaseAmtOfProduct(int id, int amt, boolean copyExact) {
@@ -243,16 +228,6 @@ public class Inventory {
     public static void decreaseAmtOfProduct(String prodName, int amt) {
         ArrayList<Product> toRemove = getAllProductsByName(prodName);
         removeFromInventory(amt, toRemove);
-    }
-
-    public static void setProduct(String prodName, UpdateConsole.FieldCommands fieldToEdit, String newFieldValue) {
-        for (Product p : currentInventory) {
-            if (p.getName().toLowerCase().equals(prodName.toLowerCase())) {
-                if (UpdateConsole.fieldCommandMatchesProductType(fieldToEdit, p)) {
-                    // edit field of p with newFieldValue
-                }
-            }
-        }
     }
 
     public static Boolean modify(Product p, UpdateConsole.FieldCommands field, String newValue) {
@@ -368,9 +343,9 @@ public class Inventory {
         for (Product p : toAdd) {
             for (int i = 0; i < amt; i++) {
                 if (p instanceof BoardGame) {
-                    currentInventory.add(p.copyAsBoardGame());
+                    add(p.copyAsBoardGame());
                 } else if (p instanceof Figurine) {
-                    currentInventory.add(p.copyAsFigurine(copyExact));
+                    add(p.copyAsFigurine(copyExact));
                 }
             }
         }
@@ -388,17 +363,39 @@ public class Inventory {
         clear();
         BoardGameService.loadJSONData(boardFile);
         FigurineService.loadJSONData(figureFile);
+        updateOccurrences();
     }
 
     public static void loadData() {
         clear();
         BoardGameService.loadJSONData();
         FigurineService.loadJSONData();
+        updateOccurrences();
+    }
+
+    private static void updateOccurrences() {
+        occurrences.clear();
+        for (Product p : currentInventory) {
+            processOccurrences(p);
+        }
+    }
+
+    private static void processOccurrences(Product p) {
+        String productName = p.getName().toLowerCase();
+        if (p instanceof Figurine) {
+            productName += ((Figurine) p).getColor();
+        }
+        if (occurrences.containsKey(productName)) {
+            occurrences.put(productName, occurrences.get(productName) + 1);
+        } else {
+            occurrences.put(productName, 1);
+        }
     }
 
     static {
         currentInventory = new ArrayList<>();
         rollbackList = new ArrayList<>();
+        occurrences = new HashMap<>();
     }
 
 }

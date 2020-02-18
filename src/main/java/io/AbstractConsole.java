@@ -2,7 +2,6 @@ package io;
 
 import services.ConsoleService;
 import utils.MenuStrings;
-import utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,16 +85,13 @@ public abstract class AbstractConsole
         }
         if (commandExists(command)) {
             this.processCommand(this.consoleCommands.get(command), args);
-            Utilities.setLastCommand(fullCommand);
         }
         else if (allowOtherConsoles) {
             consoleToExecuteFrom.processCommand(consoleToExecuteFrom.consoleCommands.get(command), args);
-            Utilities.setLastCommand(fullCommand);
         }
         else if (command.equals("best") && hiddenCmd.toLowerCase().equals("programmer")) {
             System.out.println("Nobles");
             printPrompt(PromptMessage.STANDARD, true);
-            Utilities.setLastCommand(command + " " + hiddenCmd);
         }
         else {
             runOnInvalidCommand(args);

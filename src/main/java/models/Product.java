@@ -1,5 +1,7 @@
 package models;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Product {
@@ -7,6 +9,7 @@ public class Product {
     protected String name;
     protected String type;
     protected int id;
+    private static Map<Integer, Integer> generatedIDS = new HashMap<>();
 
     public Product() { }
 
@@ -52,7 +55,14 @@ public class Product {
     }
 
     protected static int generateID() {
-        return ThreadLocalRandom.current().nextInt(0, 1000) + ThreadLocalRandom.current().nextInt(ThreadLocalRandom.current().nextInt(1, 5), ThreadLocalRandom.current().nextInt(10, 3000));
+        int lfb = 50;
+        int rand = ThreadLocalRandom.current().nextInt(0, Inventory.size() + 5) + ThreadLocalRandom.current().nextInt(ThreadLocalRandom.current().nextInt(1, lfb), ThreadLocalRandom.current().nextInt(lfb, (Inventory.size() * 3) + lfb + 2));
+        while (generatedIDS.containsKey(rand)) {
+            lfb += 50;
+            rand = ThreadLocalRandom.current().nextInt(0, Inventory.size() + 5) + ThreadLocalRandom.current().nextInt(ThreadLocalRandom.current().nextInt(1, lfb), ThreadLocalRandom.current().nextInt(lfb, (Inventory.size() * 3) + lfb + 2));
+        }
+        generatedIDS.put(rand, rand);
+        return rand;
     }
 
     public String getName() {
@@ -76,6 +86,9 @@ public class Product {
     }
 
     public void setId(int id) {
+        if (generatedIDS.containsKey(id)) {
+            id = generateID();
+        }
         this.id = id;
     }
 }
